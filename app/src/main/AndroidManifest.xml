@@ -16,7 +16,9 @@
         android:roundIcon="@drawable/groceriestore"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".MainUserActivity"></activity>
+        <activity android:name=".MainSellerActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".RegisterUserActivity" />
         <activity android:name=".RegisterSellerActivity" />
         <activity android:name=".LoginActivity" />
