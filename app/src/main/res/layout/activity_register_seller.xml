@@ -205,7 +205,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
-               android:inputType="textEmailAddress"
+               android:inputType="textPassword"
                android:background="@drawable/shape_rect02"/>
            <EditText
                android:id="@+id/confpassdEt"
@@ -218,17 +218,17 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
-               android:inputType="textEmailAddress"
+               android:inputType="textPassword"
                android:background="@drawable/shape_rect02"/>
 
-           <TextView
-               android:id="@+id/forgotTv"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_margin="5dp"
-               android:text="Forgot Password?"
-               android:layout_below="@id/confpassdEt"
-               android:layout_alignParentEnd="true"/>
+<!--           <TextView-->
+<!--               android:id="@+id/forgotTv"-->
+<!--               android:layout_width="wrap_content"-->
+<!--               android:layout_height="wrap_content"-->
+<!--               android:layout_margin="5dp"-->
+<!--               android:text="Forgot Password?"-->
+<!--               android:layout_below="@id/confpassdEt"-->
+<!--               android:layout_alignParentEnd="true"/>-->
 
            <Button
                android:id="@+id/RegisterBtn"
