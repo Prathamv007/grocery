@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:padding="10dp"
-        android:background="@drawable/shape_rect01">
+        android:background="@drawable/shape_rec01">
 
         <TextView
             android:id="@+id/nameTv"
