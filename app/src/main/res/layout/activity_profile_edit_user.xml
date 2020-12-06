@@ -44,7 +44,7 @@
             app:c_border="true"
             app:c_border_color="@color/colorPrimary"
             app:c_border_width="1dp"
-            android:src="@drawable/ic_person_grey" />
+            android:src="@drawable/ic_person_gray" />
 
     <EditText
         android:id="@+id/nameEt"
@@ -52,8 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profileIv"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
-        android:drawableStart="@drawable/ic_person_grey"
+        android:background="@drawable/shape_rec02"
+        android:drawableStart="@drawable/ic_person_gray"
         android:drawablePadding="5dp"
         android:hint="Full Name"
         android:inputType="textPersonName|textCapWords"
@@ -65,8 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameEt"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
-        android:drawableStart="@drawable/ic_person_grey"
+        android:background="@drawable/shape_rec02"
+        android:drawableStart="@drawable/ic_person_gray"
         android:drawablePadding="5dp"
         android:hint="phone"
         android:inputType="phone"
@@ -130,11 +130,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/addressLl"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
-        android:drawableStart="@drawable/ic_person_grey"
+        android:background="@drawable/shape_rec02"
+        android:drawableStart="@drawable/ic_person_gray"
         android:drawablePadding="5dp"
         android:hint="Address"
-        android:inputType="textPostalAddress"
+        android:inputType="textPostalAddress|textMultiLine"
         android:padding="10dp"/>
     
     <Button
