@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:padding="10dp"
-    android:background="@drawable/shape_rect01">
+        android:background="@drawable/shape_rec01">
     <ImageButton
     android:id="@+id/backBtn"
     android:layout_width="30dp"
@@ -33,26 +33,35 @@
     android:layout_alignParentEnd="true"
     android:src="@drawable/ic_gps_white"/>
     </RelativeLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/profileiv"
+        android:layout_below="@+id/toolbarRl"
+        android:src="@drawable/ic_person_grey"
+        android:layout_centerHorizontal="true"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="1dp"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileIv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@+id/toolbarRl"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:c_border="true"
-            app:c_border_color="@color/colorPrimary"
-            app:c_border_width="1dp"
-            android:src="@drawable/ic_person_grey" />
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/profileIv"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_below="@+id/toolbarRl"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--         -->
+<!--            app:c_border_color="@color/colorPrimary"-->
+<!--            app:c_border_width="1dp"-->
+<!--            android:src="@drawable/ic_person_grey" />-->
 
     <EditText
         android:id="@+id/nameEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profileIv"
+        android:layout_below="@+id/profileiv"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
+        android:background="@drawable/shape_rec02"
         android:drawableStart="@drawable/ic_person_grey"
         android:drawablePadding="5dp"
         android:hint="Full Name"
@@ -65,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameEt"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
+        android:background="@drawable/shape_rec02"
         android:drawableStart="@drawable/ic_person_grey"
         android:drawablePadding="5dp"
         android:hint="phone"
@@ -85,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_below="@+id/nameEt"
             android:layout_margin="5dp"
-            android:background="@drawable/shape_rect02"
+            android:background="@drawable/shape_rec02"
             android:layout_weight="1"
             android:drawableStart="@drawable/ic_location_gray"
             android:drawablePadding="5dp"
@@ -99,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_below="@+id/nameEt"
             android:layout_margin="5dp"
-            android:background="@drawable/shape_rect02"
+            android:background="@drawable/shape_rec02"
             android:layout_weight="1"
             android:drawableStart="@drawable/ic_location_gray"
             android:drawablePadding="5dp"
@@ -113,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_below="@+id/nameEt"
             android:layout_margin="5dp"
-            android:background="@drawable/shape_rect02"
+            android:background="@drawable/shape_rec02"
             android:layout_weight="1"
             android:drawableStart="@drawable/ic_location_gray"
             android:drawablePadding="5dp"
@@ -130,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/addressLl"
         android:layout_margin="5dp"
-        android:background="@drawable/shape_rect02"
+        android:background="@drawable/shape_rec02"
         android:drawableStart="@drawable/ic_person_grey"
         android:drawablePadding="5dp"
         android:hint="Address"

@@ -25,8 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class MainUserActivity extends AppCompatActivity {
-private TextView nameTv;
-private ImageButton logoutBtn;
+    private TextView nameTv;
+    private ImageButton logoutbtn;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     @Override
@@ -34,7 +34,7 @@ private ImageButton logoutBtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
 
-        logoutBtn=findViewById(R.id.logoutbtn);
+        logoutbtn=findViewById(R.id.logoutbtn);
         nameTv=findViewById(R.id.nameTv);
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("please wait");
@@ -42,10 +42,10 @@ private ImageButton logoutBtn;
         firebaseAuth=FirebaseAuth.getInstance();
         checkUser();
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
+        logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               makeMeoffline();
+                makeMeoffline();
             }
         });
 

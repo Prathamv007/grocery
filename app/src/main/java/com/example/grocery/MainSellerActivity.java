@@ -36,8 +36,8 @@ public class MainSellerActivity extends AppCompatActivity {
         logoutbtn=findViewById(R.id.logoutbtn);
         nameTv=findViewById(R.id.nameTv);
         progressDialog=new ProgressDialog(this);
-          progressDialog.setTitle("please wait");
-          progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle("please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
         firebaseAuth=FirebaseAuth.getInstance();
         checkUser();
 

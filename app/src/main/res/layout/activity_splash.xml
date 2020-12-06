@@ -15,14 +15,14 @@
 
     <TextView
         android:id="@+id/icontext"
-        android:layout_below="@+id/iconiv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/iconiv"
+        android:layout_marginTop="7dp"
+        android:text="Grocery"
+        android:layout_centerInParent="true"
         android:textColor="@color/colorPrimary"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
