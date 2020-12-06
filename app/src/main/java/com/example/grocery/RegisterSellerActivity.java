@@ -93,7 +93,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         addressEt=findViewById(R.id.addressEt);
         emailEt=findViewById(R.id.emailEt);
         passwordEt=findViewById(R.id.passwordEt);
-        confpassdEt=findViewById(R.id.shopnameEt);
+        confpassdEt=findViewById(R.id.confpassdEt);
         RegisterBtn=findViewById(R.id.RegisterBtn);
         forgotTv=findViewById(R.id.forgotTv);
         deliveryfeet=findViewById(R.id.deliveryfeet);
@@ -285,7 +285,7 @@ private static final int LOCATION_REQUEST_CODE=100;
             hashMap.put("shopopen","true");
             hashMap.put("profileimage","");
             //save to db
-            DatabaseReference ref= FirebaseDatabase.getInstance().getReference("users");
+            DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
