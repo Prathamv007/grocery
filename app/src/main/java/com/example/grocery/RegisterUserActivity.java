@@ -272,7 +272,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
 
             hashMap.put("profileimage","");
             //save to db
-            DatabaseReference ref= FirebaseDatabase.getInstance().getReference("users");
+            DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
