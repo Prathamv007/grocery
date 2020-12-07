@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AddProductActivity">
+    tools:context=".activities.AddProductActivity">
 
 
     <!--toolbar-->
@@ -18,7 +18,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:id="@+id/backBtn"
-            android:src="@drawable/ic_black_white"
+            android:src="@drawable/ic_back_white"
             android:background="@null"/>
 
         <TextView

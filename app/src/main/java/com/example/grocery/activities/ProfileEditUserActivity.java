@@ -1,10 +1,12 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.grocery.R;
 
 public class ProfileEditUserActivity extends AppCompatActivity {
 

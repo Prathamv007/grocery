@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainSellerActivity">
+    tools:context=".activities.MainSellerActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -21,7 +21,7 @@
             android:textSize="20sp"
             android:textColor="#ffffff"/>
         <ImageButton
-            android:id="@+id/logoutbtn"
+            android:id="@+id/logoutBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"

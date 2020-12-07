@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.grocery.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 FirebaseUser user=firebaseAuth.getCurrentUser();
                 if(user==null){
-                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 }
                 else{
@@ -50,23 +51,21 @@ public class SplashActivity extends AppCompatActivity {
         //if user open user activity
         //if seller open seller activity
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
-        ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
+        ref.child(firebaseAuth.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot ds:dataSnapshot.getChildren()){
-                            String accounttype=""+ds.child("account type").getValue();
-                            if(accounttype.equals("Seller")){
+                        String accountType=""+dataSnapshot.child("account type").getValue();
+                        if(accountType.equals("Seller")){
 
-                                //user is seller
-                                startActivity(new Intent(SplashActivity.this,MainSellerActivity.class));
-                                finish();
-                            }
-                            else{
+                            //user is seller
+                            startActivity(new Intent(SplashActivity.this,MainSellerActivity.class));
+                            finish();
+                        }
+                        else{
 
-                                startActivity(new Intent(SplashActivity.this,MainUserActivity.class));
-                                finish();
-                            }
+                            startActivity(new Intent(SplashActivity.this,MainUserActivity.class));
+                            finish();
                         }
                     }
 

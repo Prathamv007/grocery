@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 
 public class MainSellerActivity extends AppCompatActivity {
     private TextView nameTv;
-    private ImageButton logoutbtn;
+    private ImageButton logoutBtn;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     @Override
@@ -33,7 +34,7 @@ public class MainSellerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_seller);
 
-        logoutbtn=findViewById(R.id.logoutbtn);
+        logoutBtn=findViewById(R.id.logoutBtn);
         nameTv=findViewById(R.id.nameTv);
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("please wait");
@@ -41,7 +42,7 @@ public class MainSellerActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         checkUser();
 
-        logoutbtn.setOnClickListener(new View.OnClickListener() {
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 makeMeoffline();
@@ -81,7 +82,7 @@ public class MainSellerActivity extends AppCompatActivity {
     private void checkUser() {
         FirebaseUser user=firebaseAuth.getCurrentUser();
         if(user==null){
-            startActivity(new Intent(MainSellerActivity.this,LoginActivity.class));
+            startActivity(new Intent(MainSellerActivity.this, LoginActivity.class));
             finish();
         }
         else{
@@ -97,9 +98,9 @@ public class MainSellerActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds:dataSnapshot.getChildren()){
                             String name=""+ds.child("name").getValue();
-                            String accounttype=""+ds.child("accounttype").getValue();
+                            String accountType=""+ds.child("accountType").getValue();
 
-                            nameTv.setText(name+"("+accounttype+")");
+                            nameTv.setText(name+"("+accountType+")");
                         }
                     }
 
