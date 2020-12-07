@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -27,6 +27,8 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.grocery.R;
+import com.example.grocery.constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -238,7 +240,7 @@ public class AddProductActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             //adding db
                             progressDialog.dismiss();
-                            Toast.makeText(com.example.grocery.AddProductActivity.this,"Product added...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductActivity.this,"Product added...", Toast.LENGTH_SHORT).show();
                             clearData();
                         }
                     })
@@ -247,7 +249,7 @@ public class AddProductActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e){
                             //failed adding to db
                             progressDialog.dismiss();
-                            Toast.makeText(com.example.grocery.AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                 });
         }
@@ -293,7 +295,7 @@ public class AddProductActivity extends AppCompatActivity {
                                             public void onSuccess(Void aVoid) {
                                                 //adding db
                                                 progressDialog.dismiss();
-                                                Toast.makeText(com.example.grocery.AddProductActivity.this,"Product added...", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddProductActivity.this,"Product added...", Toast.LENGTH_SHORT).show();
                                                 clearData();
 
                                             }
@@ -302,7 +304,7 @@ public class AddProductActivity extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e){
                                         //failed adding to db
                                         progressDialog.dismiss();
-                                        Toast.makeText(com.example.grocery.AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -316,7 +318,7 @@ public class AddProductActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             //failed uploading image
                             progressDialog.dismiss();
-                            Toast.makeText(com.example.grocery.AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProductActivity.this,""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
 
                         }

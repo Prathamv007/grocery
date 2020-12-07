@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterSellerActivity">
+    tools:context=".activities.RegisterSellerActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -77,7 +77,7 @@
                android:background="@drawable/shape_rec02"/>
 
            <EditText
-               android:id="@+id/shopnameEt"
+               android:id="@+id/shopNameEt"
                android:layout_below="@+id/nameEt"
                android:hint="Shop name"
 
@@ -91,7 +91,7 @@
                android:background="@drawable/shape_rec02"/>
            <EditText
                android:id="@+id/phoneEt"
-               android:layout_below="@+id/shopnameEt"
+               android:layout_below="@+id/shopNameEt"
                android:hint="Phone"
 
                android:padding="10dp"

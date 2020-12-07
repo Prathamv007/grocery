@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -15,6 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
+import com.example.grocery.adapters.AdapterShop;
+import com.example.grocery.models.ModelShop;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         NoaccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterUserActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterUserActivity.class));
             }
         });
 
         forgotTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
             }
         });
 
@@ -142,17 +147,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds:dataSnapshot.getChildren()){
-                            String accounttype=""+ds.child("account type").getValue();
-                            if(accounttype.equals("seller")){
+                            String accountType=""+ds.child("account type").getValue();
+                            if(accountType.equals("Seller")){
                                 progressDialog.dismiss();
                                 //user is seller
-                                startActivity(new Intent(LoginActivity.this,MainSellerActivity.class));
+                                startActivity(new Intent(LoginActivity.this, MainSellerActivity.class));
                                 finish();
                             }
                             else{
                                 progressDialog.dismiss();
                                 //user is buyer
-                                startActivity(new Intent(LoginActivity.this,MainUserActivity.class));
+                                startActivity(new Intent(LoginActivity.this, MainUserActivity.class));
                                 finish();
                             }
                         }
