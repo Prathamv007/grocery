@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
