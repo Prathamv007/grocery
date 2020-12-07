@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="1dp"
+    app:cardElevation="3dp"
+    app:contentPadding="5dp"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/productIconIv"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_cart_gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_toStartOf="@+id/nextIv"
+        android:layout_toEndOf="@id/productIconIv">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discountedNoteTv"
+            android:layout_alignParentEnd="true"
+            android:textSize="10sp"
+            android:padding="5dp"
+            android:textColor="@color/colorRed"
+            android:text="10% off"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTv"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Title"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/descriptionTv"
+
+android:minLines="2"
+            android:maxLines="2"
+            android:layout_below="@id/titleTv"
+            android:textColor="#000000"
+            android:text="Product Description"/>
+        android:text="Title"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addToCartTv"
+            android:gravity="center_vertical"
+            android:layout_below="@id/descriptionTv"
+            android:textColor="@color/colorPrimaryDark"
+            android:drawableStart="@drawable/ic_cart_gray"
+            android:text="add to cart"/>
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:layout_below="@id/addToCartTv"
+
+          android:layout_alignParentEnd="true">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="$10"
+              android:id="@+id/discountedPriceTv"
+              android:layout_marginEnd="10dp"
+              android:textColor="#808080"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="$20"
+              android:layout_toEndOf="@id/discountedPriceTv"
+              android:id="@+id/originalPriceTv"
+              android:layout_marginEnd="10dp"
+              android:textColor="#808080"/>
+
+
+      </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
+</androidx.cardview.widget.CardView>
