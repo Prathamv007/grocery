@@ -37,7 +37,7 @@ public class MainUserActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     private RelativeLayout shopsRl,ordersRl;
-    private ImageView profileiv;
+    private ImageView profileIv;
     private RecyclerView shopsRv;
     private ArrayList<ModelShop> shopsList;
     private AdapterShop adapterShop;
@@ -177,10 +177,10 @@ public class MainUserActivity extends AppCompatActivity {
                             emailTv.setText(email);
                             phoneTv.setText(phone);
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(profileiv);
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(profileIv);
                             }
                             catch (Exception e){
-                            profileiv.setImageResource(R.drawable.ic_person_gray);
+                            profileIv.setImageResource(R.drawable.ic_person_gray);
                             }
                             //load only those shops that are in city of user
                             loadShops(city);
@@ -196,7 +196,7 @@ public class MainUserActivity extends AppCompatActivity {
 
     private void loadShops(final String myCity) {
         //INIT LIST
-        shopsList =new ArrayList<>()
+        shopsList =new ArrayList<>();
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
         ref.orderByChild("accountType").equalTo("Seller")
                 .addValueEventListener(new ValueEventListener() {

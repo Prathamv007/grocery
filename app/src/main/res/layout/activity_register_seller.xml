@@ -12,7 +12,7 @@
         android:padding="10dp"
         android:background="@drawable/shape_rec01">
         <ImageButton
-            android:id="@+id/backbtn"
+            android:id="@+id/backBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@null"
@@ -56,7 +56,7 @@
                android:layout_width="100dp"
                android:layout_height="100dp"
 
-               android:id="@+id/profileiv"
+               android:id="@+id/profileIv"
                android:src="@drawable/ic_person_grey"
                android:layout_centerHorizontal="true"
                app:civ_border_color="@color/colorPrimary"
@@ -64,7 +64,7 @@
 
            <EditText
                android:id="@+id/nameEt"
-               android:layout_below="@+id/profileiv"
+               android:layout_below="@+id/profileIv"
                android:hint="Full name"
 
                android:padding="10dp"

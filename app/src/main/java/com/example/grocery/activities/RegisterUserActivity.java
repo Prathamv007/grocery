@@ -49,8 +49,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class RegisterUserActivity extends AppCompatActivity implements LocationListener {
-private ImageButton backbtn,gpsbtn;
-private ImageView profileiv;
+private ImageButton backBtn,gpsbtn;
+private ImageView profileIv;
 private Button RegisterBtn;
 private TextView RegisterSellerTv;
 private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,emailEt,passwordEt,confpassdEt,addressEt;
@@ -79,9 +79,9 @@ private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,emailEt,passwordEt,conf
         //init ui views
         RegisterSellerTv=findViewById(R.id.RegisterSellerTv);
 RegisterBtn=findViewById(R.id.RegisterBtn);
-        backbtn=findViewById(R.id.backbtn);
+        backBtn=findViewById(R.id.backBtn);
         gpsbtn=findViewById(R.id.gpsbtn);
-        profileiv=findViewById(R.id.profileiv);
+        profileIv=findViewById(R.id.profileIv);
         nameEt=findViewById(R.id.nameEt);
         phoneEt=findViewById(R.id.phoneEt);
         addressEt=findViewById(R.id.addressEt);
@@ -102,7 +102,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
         progressDialog.setTitle("please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -122,7 +122,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                 }
             }
         });
-        profileiv.setOnClickListener(new View.OnClickListener() {
+        profileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //PICK IMAGE
@@ -563,11 +563,11 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                 //GET PICKED IMAGE
                 image_uri=data.getData();
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
             else if(requestCode==IMAGE_PICK_CAMERA_CODE){
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

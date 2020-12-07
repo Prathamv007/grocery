@@ -49,12 +49,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class RegisterSellerActivity extends AppCompatActivity implements LocationListener {
-private ImageButton backbtn,gpsbtn;
+private ImageButton backBtn,gpsbtn;
 private EditText nameEt,shopNameEt,phoneEt,countryEt,stateEt,
         cityEt,addressEt,emailEt,addressl,passwordEt,confpassdEt,deliveryfeet;
 private Button RegisterBtn;
 private TextView forgotTv;
-private ImageView profileiv;
+private ImageView profileIv;
 
 //PERMISSION CONSTANTS
 private static final int LOCATION_REQUEST_CODE=100;
@@ -79,7 +79,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         setContentView(R.layout.activity_register_seller);
 
 
-        backbtn=findViewById(R.id.backbtn);
+        backBtn=findViewById(R.id.backBtn);
         gpsbtn=findViewById(R.id.gpsbtn);
         nameEt=findViewById(R.id.nameEt);
         shopNameEt=findViewById(R.id.shopNameEt);
@@ -87,7 +87,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         countryEt=findViewById(R.id.countryEt);
         stateEt=findViewById(R.id.stateEt);
         cityEt=findViewById(R.id.cityEt);
-        profileiv=findViewById(R.id.profileiv);
+        profileIv=findViewById(R.id.profileIv);
         addressEt=findViewById(R.id.addressEt);
         emailEt=findViewById(R.id.emailEt);
         passwordEt=findViewById(R.id.passwordEt);
@@ -107,7 +107,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         progressDialog.setCanceledOnTouchOutside(false);
 
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -128,7 +128,7 @@ private static final int LOCATION_REQUEST_CODE=100;
                 }
             }
         });
-        profileiv.setOnClickListener(new View.OnClickListener() {
+        profileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //PICK IMAGE
@@ -572,11 +572,11 @@ private static final int LOCATION_REQUEST_CODE=100;
                 //GET PICKED IMAGE
                 image_uri=data.getData();
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
             else if(requestCode==IMAGE_PICK_CAMERA_CODE){
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

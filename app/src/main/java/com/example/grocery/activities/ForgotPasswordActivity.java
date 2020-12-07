@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-    private ImageButton backbtn;
+    private ImageButton backBtn;
     private EditText emailEt;
     private Button recoverbtn;
     private FirebaseAuth firebaseAuth;
@@ -29,7 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        backbtn = findViewById(R.id.backbtn);
+        backBtn = findViewById(R.id.backBtn);
         emailEt = findViewById(R.id.emailEt);
         recoverbtn = findViewById(R.id.recoverbtn);
 
@@ -38,7 +38,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         progressDialog.setTitle("PLEASE WAIT");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
