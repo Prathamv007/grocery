@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:padding="10dp"
-        android:background="@drawable/shape_rec01">
+        android:background="@drawable/shape_rect01">
         <ImageButton
             android:id="@+id/backBtn"
             android:layout_width="30dp"
@@ -74,7 +74,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textPersonName|textCapWords"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
 
            <EditText
                android:id="@+id/shopNameEt"
@@ -88,7 +88,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textPersonName|textCapWords"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
            <EditText
                android:id="@+id/phoneEt"
                android:layout_below="@+id/shopNameEt"
@@ -101,7 +101,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="phone"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
            <EditText
                android:id="@+id/deliveryfeet"
                android:layout_below="@+id/phoneEt"
@@ -114,7 +114,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="phone"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
            <LinearLayout
                android:id="@+id/addressl"
                android:layout_width="match_parent"
@@ -136,7 +136,7 @@
                    android:layout_margin= "5dp"
                    android:inputType="textPostalAddress"
                    android:layout_weight="1"
-                   android:background="@drawable/shape_rec02"/>
+                   android:background="@drawable/shape_rect02"/>
 
                <EditText
                    android:id="@+id/stateEt"
@@ -150,7 +150,7 @@
                    android:layout_height="wrap_content"
                    android:layout_margin= "5dp"
                    android:inputType="textEmailAddress"
-                   android:background="@drawable/shape_rec02"/>
+                   android:background="@drawable/shape_rect02"/>
 
                <EditText
                    android:id="@+id/cityEt"
@@ -164,7 +164,7 @@
                    android:layout_height="wrap_content"
                    android:layout_margin= "5dp"
                    android:inputType="textEmailAddress"
-                   android:background="@drawable/shape_rec02"/>
+                   android:background="@drawable/shape_rect02"/>
            </LinearLayout>
 
            <EditText
@@ -179,7 +179,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textPersonName|textCapWords"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
 
            <EditText
                android:id="@+id/emailEt"
@@ -193,7 +193,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textEmailAddress"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
            <EditText
                android:id="@+id/passwordEt"
                android:layout_below="@+id/emailEt"
@@ -206,7 +206,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textPassword"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
            <EditText
                android:id="@+id/confpassdEt"
                android:layout_below="@+id/passwordEt"
@@ -219,7 +219,7 @@
                android:layout_height="wrap_content"
                android:layout_margin= "5dp"
                android:inputType="textPassword"
-               android:background="@drawable/shape_rec02"/>
+               android:background="@drawable/shape_rect02"/>
 
 <!--           <TextView-->
 <!--               android:id="@+id/forgotTv"-->
