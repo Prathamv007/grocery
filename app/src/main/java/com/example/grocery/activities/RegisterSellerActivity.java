@@ -1,4 +1,4 @@
-package com.example.grocery;
+package com.example.grocery.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -15,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -31,10 +29,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grocery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -51,12 +49,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class RegisterSellerActivity extends AppCompatActivity implements LocationListener {
-private ImageButton backbtn,gpsbtn;
-private EditText nameEt,shopnameEt,phoneEt,countryEt,stateEt,
+private ImageButton backBtn,gpsbtn;
+private EditText nameEt,shopNameEt,phoneEt,countryEt,stateEt,
         cityEt,addressEt,emailEt,addressl,passwordEt,confpassdEt,deliveryfeet;
 private Button RegisterBtn;
 private TextView forgotTv;
-private ImageView profileiv;
+private ImageView profileIv;
 
 //PERMISSION CONSTANTS
 private static final int LOCATION_REQUEST_CODE=100;
@@ -81,15 +79,15 @@ private static final int LOCATION_REQUEST_CODE=100;
         setContentView(R.layout.activity_register_seller);
 
 
-        backbtn=findViewById(R.id.backbtn);
+        backBtn=findViewById(R.id.backBtn);
         gpsbtn=findViewById(R.id.gpsbtn);
         nameEt=findViewById(R.id.nameEt);
-        shopnameEt=findViewById(R.id.shopnameEt);
+        shopNameEt=findViewById(R.id.shopNameEt);
         phoneEt=findViewById(R.id.phoneEt);
         countryEt=findViewById(R.id.countryEt);
         stateEt=findViewById(R.id.stateEt);
         cityEt=findViewById(R.id.cityEt);
-        profileiv=findViewById(R.id.profileiv);
+        profileIv=findViewById(R.id.profileIv);
         addressEt=findViewById(R.id.addressEt);
         emailEt=findViewById(R.id.emailEt);
         passwordEt=findViewById(R.id.passwordEt);
@@ -109,7 +107,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         progressDialog.setCanceledOnTouchOutside(false);
 
 
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -130,7 +128,7 @@ private static final int LOCATION_REQUEST_CODE=100;
                 }
             }
         });
-        profileiv.setOnClickListener(new View.OnClickListener() {
+        profileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //PICK IMAGE
@@ -154,7 +152,7 @@ private static final int LOCATION_REQUEST_CODE=100;
         state=stateEt.getText().toString().trim();
         country=countryEt.getText().toString().trim();
         city=cityEt.getText().toString().trim();
-        shopName=shopnameEt.getText().toString().trim();
+        shopName=shopNameEt.getText().toString().trim();
         deliveryFee=deliveryfeet.getText().toString().trim();
         address=addressEt.getText().toString().trim();
         email=emailEt.getText().toString().trim();
@@ -269,7 +267,7 @@ private static final int LOCATION_REQUEST_CODE=100;
             hashMap.put("uid",""+firebaseAuth.getUid());
             hashMap.put("email",""+email);
             hashMap.put("name",""+fullName);
-            hashMap.put("shopname",""+shopName);
+            hashMap.put("shopName",""+shopName);
             hashMap.put("phone",""+phoneNumber);
             hashMap.put("deliveryfee",""+deliveryFee);
             hashMap.put("country",""+country);
@@ -280,10 +278,10 @@ private static final int LOCATION_REQUEST_CODE=100;
             hashMap.put("latitude",""+latitude);
             hashMap.put("longitude",""+longitude);
             hashMap.put("timestamp",""+timestamp);
-            hashMap.put("accounttype","seller");
+            hashMap.put("accountType","Seller");
             hashMap.put("online","true");
-            hashMap.put("shopopen","true");
-            hashMap.put("profileimage","");
+            hashMap.put("shopOpen","true");
+            hashMap.put("profileImage","");
             //save to db
             DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -327,7 +325,7 @@ private static final int LOCATION_REQUEST_CODE=100;
                                 hashMap.put("uid",""+firebaseAuth.getUid());
                                 hashMap.put("email",""+email);
                                 hashMap.put("name",""+fullName);
-                                hashMap.put("shopname",""+shopName);
+                                hashMap.put("shopName",""+shopName);
                                 hashMap.put("phone",""+phoneNumber);
                                 hashMap.put("deliveryfee",""+deliveryFee);
                                 hashMap.put("country",""+country);
@@ -338,10 +336,10 @@ private static final int LOCATION_REQUEST_CODE=100;
                                 hashMap.put("latitude",""+latitude);
                                 hashMap.put("longitude",""+longitude);
                                 hashMap.put("timestamp",""+timestamp);
-                                hashMap.put("accounttype","seller");
+                                hashMap.put("accountType","Seller");
                                 hashMap.put("online","true");
-                                hashMap.put("shopopen","true");
-                                hashMap.put("profileimage",""+downloadImageUri);//url of uploaded image
+                                hashMap.put("shopOpen","true");
+                                hashMap.put("profileImage",""+downloadImageUri);//url of uploaded image
                                 //save to db
                                 DatabaseReference ref= FirebaseDatabase.getInstance().getReference("users");
                                 ref.child(firebaseAuth.getUid()).setValue(hashMap)
@@ -574,11 +572,11 @@ private static final int LOCATION_REQUEST_CODE=100;
                 //GET PICKED IMAGE
                 image_uri=data.getData();
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
             else if(requestCode==IMAGE_PICK_CAMERA_CODE){
                 //set to image view
-                profileiv.setImageURI(image_uri);
+                profileIv.setImageURI(image_uri);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
