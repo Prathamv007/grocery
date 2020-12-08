@@ -2,11 +2,14 @@ package com.example.grocery.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,7 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.R;
+import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.models.ModelCartItem;
 import com.google.android.gms.common.internal.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import p32929.androideasysql_library.Column;
+import p32929.androideasysql_library.EasyDB;
 
 public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
@@ -45,6 +53,11 @@ private ImageView shopIv;
 
     private String myLatitude,myLongitude;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
+    public String deliveryFee;
+
+    //cart
+    public ArrayList<ModelCartItem> cartItemList;
+    private AdapterCartItem adapterCartItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +87,11 @@ private ImageView shopIv;
          loadShopDetails();
          loadShopProducts();
 
+//each shop has its own products and orders so if user add item to cart and open cart in different shop then cart should be different
+        //so delete cart data whenever user open this activity
+
+         deleteCartData();
+
          //search
         searchProductEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,12 +101,12 @@ private ImageView shopIv;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-try{
-adapterProductUser.getFilter().filter(s);
-}
-catch (Exception e){
-e.printStackTrace();
-}
+                try{
+                adapterProductUser.getFilter().filter(s);
+                }
+                catch (Exception e){
+                e.printStackTrace();
+                }
             }
 
             @Override
@@ -106,7 +124,10 @@ e.printStackTrace();
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //logout user
+                //show cart dialog
+                showCartDialog();
+                
+
             }
         });
         callBtn.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +165,89 @@ e.printStackTrace();
                         }).show();
             }
         });
+    }
+
+    private void deleteCartData() {
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                .doneTableColumn();
+        easyDB.deleteAllDataFromTable();//delete all records from cart
+    }
+
+    public double allTotalPrice=0.00;
+    //need to access these views in adapter so making public
+    public TextView dFeeTv,sTotalTv,allTotalPriceTv;
+    private void showCartDialog() {
+        //init list
+        cartItemList =new ArrayList<>();
+        //inflate cart layout
+        View view= LayoutInflater.from(this).inflate(R.layout.dialog_cart,null);
+        //init views
+TextView shopNameTv=view.findViewById(R.id.shopNameTv);
+RecyclerView cartItemsIv=view.findViewById(R.id.cartItemsIv);
+sTotalTv=view.findViewById(R.id.sTotalTv);
+       dFeeTv=view.findViewById(R.id.dFeeTv);
+        allTotalPriceTv=view.findViewById(R.id.totalTv);
+        Button checkoutBtn=view.findViewById(R.id.checkoutBtn);
+
+        //DIALOG
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        //set view to dialog
+        builder.setView(view);
+        shopNameTv.setText(shopName);
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                .doneTableColumn();
+        //get all records from db
+        Cursor res =easyDB.getAllData();
+        while (res.moveToLast()){
+            String id=res.getString(1);
+            String pId=res.getString(2);
+            String name=res.getString(3);
+            String price=res.getString(4);
+            String cost=res.getString(5);
+            String quantity=res.getString(6);
+            allTotalPrice=allTotalPrice+Double.parseDouble(cost);
+            ModelCartItem modelCartItem=new ModelCartItem(""+id,
+                    ""+pId,
+                    ""+name,
+                    ""+price,
+                    ""+cost,
+                    ""+quantity);
+            cartItemList.add(modelCartItem);
+        }
+        //setuip adapter
+        adapterCartItem =new AdapterCartItem(this,cartItemList);
+        //set to recyclerview
+        cartItemsIv.setAdapter(adapterCartItem);
+        dFeeTv.setText("$"+deliveryFee);
+        sTotalTv.setText("$"+String.format("%.2f",allTotalPrice));
+        allTotalPriceTv.setText("$"+(allTotalPrice+Double.parseDouble(deliveryFee.replace("$",""))));
+        //show dialog
+        AlertDialog dialog=builder.create();
+        dialog.show();
+       // reset total price on dialog dismiss
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                allTotalPrice=0.00;
+
+            }
+        });
+
+
     }
 
     private void openMap() {
@@ -231,7 +335,7 @@ reference.child(shopUid).child("Products")
                 shopPhone=""+dataSnapshot.child("phone").getValue();
                 shopAddress=""+dataSnapshot.child("address").getValue();
                 shopLongitude=""+dataSnapshot.child("Longitude").getValue();
-                String deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
+                 deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
                 String profileImage=""+dataSnapshot.child("profileImage").getValue();
                 String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
                 //set data
