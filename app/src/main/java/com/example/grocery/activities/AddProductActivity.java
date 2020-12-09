@@ -335,7 +335,7 @@ public class AddProductActivity extends AppCompatActivity {
         priceEt.setText("");
         discountedPriceEt.setText("");
         discountedNoteEt.setText("");
-        productIconTv.setImageResource(R.id.ic_add_shopping_primary);
+        productIconTv.setImageResource(R.drawable.ic_add_shopping_primary);
         image_uri = null;
     }
 

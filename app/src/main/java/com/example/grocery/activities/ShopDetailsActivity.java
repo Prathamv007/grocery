@@ -1,12 +1,16 @@
 package com.example.grocery.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,8 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.R;
+import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.models.ModelCartItem;
 import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +38,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import p32929.androideasysql_library.Column;
+import p32929.androideasysql_library.EasyDB;
 
 public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
@@ -42,9 +54,14 @@ private ImageView shopIv;
     private FirebaseAuth firebaseAuth;
     private ArrayList<ModelProduct>productsList;
     private AdapterProductUser adapterProductUser;
-
-    private String myLatitude,myLongitude;
+private ProgressDialog progressDialog;
+    private String myLatitude,myLongitude,myPhone;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
+    public String deliveryFee;
+
+    //cart
+    public ArrayList<ModelCartItem> cartItemList;
+    private AdapterCartItem adapterCartItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +83,11 @@ private ImageView shopIv;
         backBtn=findViewById(R.id.backBtn);
         callBtn=findViewById(R.id.callBtn);
         productsRv =findViewById(R.id.productsRv);
+        //init progress dialog
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("PLEASE WAIT");
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
         //get uid of the shop from intent
          shopUid=getIntent().getStringExtra("shopUid");
@@ -73,6 +95,11 @@ private ImageView shopIv;
          loadMyInfo();
          loadShopDetails();
          loadShopProducts();
+
+//each shop has its own products and orders so if user add item to cart and open cart in different shop then cart should be different
+        //so delete cart data whenever user open this activity
+
+         deleteCartData();
 
          //search
         searchProductEt.addTextChangedListener(new TextWatcher() {
@@ -83,12 +110,12 @@ private ImageView shopIv;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-try{
-adapterProductUser.getFilter().filter(s);
-}
-catch (Exception e){
-e.printStackTrace();
-}
+                try{
+                adapterProductUser.getFilter().filter(s);
+                }
+                catch (Exception e){
+                e.printStackTrace();
+                }
             }
 
             @Override
@@ -106,7 +133,10 @@ e.printStackTrace();
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //logout user
+                //show cart dialog
+                showCartDialog();
+                
+
             }
         });
         callBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +176,170 @@ e.printStackTrace();
         });
     }
 
+    private void deleteCartData() {
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                .doneTableColumn();
+        easyDB.deleteAllDataFromTable();//delete all records from cart
+    }
+
+    public double allTotalPrice=0.00;
+    //need to access these views in adapter so making public
+    public TextView dFeeTv,sTotalTv,allTotalPriceTv;
+    private void showCartDialog() {
+        //init list
+        cartItemList =new ArrayList<>();
+        //inflate cart layout
+        View view= LayoutInflater.from(this).inflate(R.layout.dialog_cart,null);
+        //init views
+TextView shopNameTv=view.findViewById(R.id.shopNameTv);
+RecyclerView cartItemsIv=view.findViewById(R.id.cartItemsIv);
+sTotalTv=view.findViewById(R.id.sTotalTv);
+       dFeeTv=view.findViewById(R.id.dFeeTv);
+        allTotalPriceTv=view.findViewById(R.id.totalTv);
+        Button checkoutBtn=view.findViewById(R.id.checkoutBtn);
+
+        //DIALOG
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        //set view to dialog
+        builder.setView(view);
+        shopNameTv.setText(shopName);
+        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                .doneTableColumn();
+        //get all records from db
+        Cursor res =easyDB.getAllData();
+        while (res.moveToLast()){
+            String id=res.getString(1);
+            String pId=res.getString(2);
+            String name=res.getString(3);
+            String price=res.getString(4);
+            String cost=res.getString(5);
+            String quantity=res.getString(6);
+            allTotalPrice=allTotalPrice+Double.parseDouble(cost);
+            ModelCartItem modelCartItem=new ModelCartItem(""+id,
+                    ""+pId,
+                    ""+name,
+                    ""+price,
+                    ""+cost,
+                    ""+quantity);
+            cartItemList.add(modelCartItem);
+        }
+        //setuip adapter
+        adapterCartItem =new AdapterCartItem(this,cartItemList);
+        //set to recyclerview
+        cartItemsIv.setAdapter(adapterCartItem);
+        dFeeTv.setText("$"+deliveryFee);
+        sTotalTv.setText("$"+String.format("%.2f",allTotalPrice));
+        allTotalPriceTv.setText("$"+(allTotalPrice+Double.parseDouble(deliveryFee.replace("$",""))));
+        //show dialog
+        AlertDialog dialog=builder.create();
+        dialog.show();
+       // reset total price on dialog dismiss
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                allTotalPrice=0.00;
+
+            }
+        });
+        //place ordder
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //first validate delivery address
+                if (myLatitude.equals("") || myLatitude.equals("null") || myLongitude.equals("") || myLongitude.equals("null")) {
+                    //user didnt enter address in profile
+                    Toast.makeText(ShopDetailsActivity.this, "please enter your address in profile before placing order", Toast.LENGTH_SHORT).show();
+                    return;//dont proceed further
+
+                }
+                if (myPhone.equals("") || myPhone.equals("null")) {
+                    //user didnt enter phone number in profile
+                    Toast.makeText(ShopDetailsActivity.this, "please enter your phone number  in profile before placing order", Toast.LENGTH_SHORT).show();
+                    return;//dont proceed further
+                }
+                if(cartItemList.size()==0){
+                    //cart item empty
+                    Toast.makeText(ShopDetailsActivity.this,"No items in cart",Toast.LENGTH_SHORT).show();
+                    return;//dont proceed further
+                }
+                submitOrder();
+            }
+        });
+
+
+    }
+
+    private void submitOrder() {
+//show progress dialog
+progressDialog.setTitle("placing order...");
+progressDialog.show();
+//for order id and order time
+final String timeStamp=""+System.currentTimeMillis();
+    String cost=allTotalPriceTv.getText().toString().trim().replace("$","");
+    //setup order data
+    HashMap<String,String>hashMap=new HashMap<>();
+        hashMap.put("orderId",""+timeStamp);
+        hashMap.put("orderTime",""+timeStamp);
+        hashMap.put("orderStatus",""+"In Progress");//in progess completed/camcelled
+        hashMap.put("orderBy",""+firebaseAuth.getUid());
+        hashMap.put("orderTo",""+shopUid);
+        hashMap.put("orderCost",""+cost);
+
+        //add to db
+        final DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users").child(shopUid).child("Orders");
+        ref.child(timeStamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+//order info added ,now add order items
+                        for(int i=0;i<cartItemList.size();i++){
+                            String pId=cartItemList.get(i).getpId();
+                            String id=cartItemList.get(i).getId();
+                            String cost=cartItemList.get(i).getCost();
+                            String price=cartItemList.get(i).getPrice();
+                            String quantity=cartItemList.get(i).getQuantity();
+                            String name=cartItemList.get(i).getName();
+
+                            HashMap<String,String>hashMap1=new HashMap<>();
+                            hashMap1.put("pId",pId);
+                            hashMap1.put("name",name);
+                            hashMap1.put("cost",cost);
+                            hashMap1.put("price",price);
+                            hashMap1.put("quantity",quantity);
+
+                            ref.child(timeStamp).child("Items").child(pId).setValue(hashMap1);
+
+                        }
+                        progressDialog.dismiss();
+                        Toast.makeText(ShopDetailsActivity.this,"Order Placed Successfully",Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //failed placing order
+                progressDialog.dismiss();
+                Toast.makeText(ShopDetailsActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void openMap() {
         //saddr means source address
         //daddr means destination address
@@ -171,7 +365,7 @@ e.printStackTrace();
 
                             String name=""+ds.child("name").getValue();
                             String email=""+ds.child("email").getValue();
-                            String phone=""+ds.child("phone").getValue();
+                            myPhone=""+ds.child("phone").getValue();
                             String profileImage=""+ds.child("profileImage").getValue();
                             String accountType=""+ds.child("accountType").getValue();
                            myLatitude=""+ds.child("latitude").getValue();
@@ -231,7 +425,7 @@ reference.child(shopUid).child("Products")
                 shopPhone=""+dataSnapshot.child("phone").getValue();
                 shopAddress=""+dataSnapshot.child("address").getValue();
                 shopLongitude=""+dataSnapshot.child("Longitude").getValue();
-                String deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
+                 deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
                 String profileImage=""+dataSnapshot.child("profileImage").getValue();
                 String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
                 //set data
