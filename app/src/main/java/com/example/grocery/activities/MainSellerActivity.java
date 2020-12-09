@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.grocery.ProfileEditSellerActivity;
 import com.example.grocery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,12 +23,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class MainSellerActivity extends AppCompatActivity {
-    private TextView nameTv;
-    private ImageButton logoutBtn;
+    private TextView nameTv,shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn;
+    private ImageView profileIv;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     @Override
@@ -36,6 +40,12 @@ public class MainSellerActivity extends AppCompatActivity {
 
         logoutBtn=findViewById(R.id.logoutBtn);
         nameTv=findViewById(R.id.nameTv);
+        shopNameTv = findViewById(R.id.shopNameTv);
+        profileIv = findViewById(R.id.profileIv);
+        emailTv = findViewById(R.id.emailTv);
+        editProfileBtn = findViewById(R.id.editProfileBtn);
+        addProductBtn = findViewById(R.id.addProductBtn);
+
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("please wait");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -46,6 +56,23 @@ public class MainSellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 makeMeoffline();
+
+            }
+        });
+
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open edit profile activity
+                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
+            }
+        });
+
+        addProductBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open edit add product activity
+                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
 
             }
         });
@@ -97,10 +124,26 @@ public class MainSellerActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot ds:dataSnapshot.getChildren()){
+                            //get data from db
                             String name=""+ds.child("name").getValue();
                             String accountType=""+ds.child("accountType").getValue();
+                            String email = ""+ds.child("e").getValue();
+                            String shopName = ""+ds.child("shopName").getValue();
+                            String profileImage = ""+ds.child("profileImage").getValue();
+
+                            //set data to ui
+
 
                             nameTv.setText(name+"("+accountType+")");
+                            shopNameTv.setText(shopName);
+                            emailTv.setText(email);
+                            try{
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_gray).into(profileIv);
+                            }
+                            catch(Exception e){
+                                profileIv.setImageResource(R.drawable.ic_store_gray);
+                            }
+
                         }
                     }
 
