@@ -171,11 +171,11 @@ private ProgressDialog progressDialog;
             public void onClick(View v) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(ShopDetailsActivity.this);
                 builder.setTitle("Filtered Products:")
-                        .setItems(Constants.productCategories1, new DialogInterface.OnClickListener() {
+                        .setItems(constants.productCategories1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //get selected item
-                                String selected=Constants.productCategories1[which];
+                                String selected=constants.productCategories1[which];
                                 filteredProductsTv.setText(selected);
                                 if(selected.equals("All")){
                                     //load all
