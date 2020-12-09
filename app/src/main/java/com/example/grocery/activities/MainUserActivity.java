@@ -190,7 +190,7 @@ public class MainUserActivity extends AppCompatActivity {
                                 Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(profileIv);
                             }
                             catch (Exception e){
-                            profileIv.setImageResource(R.drawable.ic_person_gray);
+                            //profileIv.setImageResource(R.drawable.ic_person_gray);
                             }
                             //load only those shops that are in city of user
                             loadShops(city);

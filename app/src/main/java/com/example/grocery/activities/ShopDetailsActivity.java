@@ -310,15 +310,21 @@ progressDialog.setTitle("placing order...");
 progressDialog.show();
 //for order id and order time
 final String timeStamp=""+System.currentTimeMillis();
+
     String cost=allTotalPriceTv.getText().toString().trim().replace("$","");
+
+    //add latitude,longitude of user to each order|delete previous orders from  firebase or add manually to them
+
     //setup order data
     HashMap<String,String>hashMap=new HashMap<>();
         hashMap.put("orderId",""+timeStamp);
         hashMap.put("orderTime",""+timeStamp);
         hashMap.put("orderStatus",""+"In Progress");//in progess completed/camcelled
+        hashMap.put("orderCost",""+cost);
         hashMap.put("orderBy",""+firebaseAuth.getUid());
         hashMap.put("orderTo",""+shopUid);
-        hashMap.put("orderCost",""+cost);
+        hashMap.put("latitude",""+myLatitude);
+        hashMap.put("longitude",""+myLongitude);
 
         //add to db
         final DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users").child(shopUid).child("Orders");
@@ -348,7 +354,12 @@ final String timeStamp=""+System.currentTimeMillis();
                         progressDialog.dismiss();
                         Toast.makeText(ShopDetailsActivity.this,"Order Placed Successfully",Toast.LENGTH_SHORT).show();
 
-
+//after placing order open order details page
+                        //open order details,we need to keep tehre orderid,orderto
+                        Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
+                        intent.putExtra("orderTo",shopUid);
+                        intent.putExtra("orderId",timeStamp);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

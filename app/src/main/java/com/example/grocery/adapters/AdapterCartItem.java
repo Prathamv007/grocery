@@ -83,7 +83,8 @@ holder.itemPriceEachTv.setText(""+price);
                 ((ShopDetailsActivity)context).allTotalPriceTv.setText("$"+String.format("$.2f",Double.parseDouble(String.format("$.2f",totalPrice))));
 
 
-
+//after removing from cart,update cart
+                ((ShopDetailsActivity)context).cartCount();
 
             }
         });
