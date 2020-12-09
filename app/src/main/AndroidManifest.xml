@@ -22,9 +22,11 @@
         <activity android:name=".activities.MainSellerActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.RegisterUserActivity" />
+        <activity android:name=".activities.ProfileEditUserActivity"/>
         <activity android:name=".activities.RegisterSellerActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.SplashActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
