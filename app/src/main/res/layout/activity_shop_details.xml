@@ -143,6 +143,20 @@ android:layout_centerHorizontal="true"
         android:text="Shop Details"
         android:textColor="#ffffff"
         android:textSize="20sp"/>
+<!--    cart item count badge-->
+    <TextView
+        android:id="@+id/cartCountTv"
+        android:textColor="@color/colorWhite"
+        android:text="10"
+        android:textSize="8sp"
+        android:gravity="center"
+        android:background="@drawable/shape_circle03"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+
+        />
+
+
 
 
 </RelativeLayout>
