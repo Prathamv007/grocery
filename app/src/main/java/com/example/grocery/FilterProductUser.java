@@ -3,6 +3,7 @@ package com.example.grocery;
 import android.widget.Filter;
 
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.models.ModelProduct;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ private ArrayList<ModelProduct>filterList;
             for (int i = 0; i < filterList.size(); i++) {
                 //check search by title and category
 
-                if (filterList.get(i).getProductTitle().toUpperCase.contains(constraint) ||
+                if (filterList.get(i).getProductTitle().toUpperCase().contains(constraint) ||
                         filterList.get(i).getProductCategory().toUpperCase().contains(constraint)) {
                     //add filtered data to list
                     filteredModels.add(filterList.get(i));

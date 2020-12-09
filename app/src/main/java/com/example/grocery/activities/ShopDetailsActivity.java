@@ -26,6 +26,7 @@ import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
 import com.example.grocery.models.ModelCartItem;
+import com.example.grocery.models.ModelProduct;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,7 +47,7 @@ import p32929.androideasysql_library.EasyDB;
 public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
 private ImageView shopIv;
-    private TextView  shopNameTv,phoneTv,emailTv,openClosedTv,deliveryFeeTv,addressTv,filteredProductsTv;
+    private TextView  shopNameTv,phoneTv,emailTv,openClosedTv,deliveryFeeTv,addressTv,filteredProductsTv,cartCountTv;
     private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
@@ -62,6 +63,8 @@ private ProgressDialog progressDialog;
     //cart
     public ArrayList<ModelCartItem> cartItemList;
     private AdapterCartItem adapterCartItem;
+
+   private EasyDB easyDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +86,7 @@ private ProgressDialog progressDialog;
         backBtn=findViewById(R.id.backBtn);
         callBtn=findViewById(R.id.callBtn);
         productsRv =findViewById(R.id.productsRv);
+        cartCountTv =findViewById(R.id.cartCountTv);
         //init progress dialog
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("PLEASE WAIT");
@@ -95,11 +99,22 @@ private ProgressDialog progressDialog;
          loadMyInfo();
          loadShopDetails();
          loadShopProducts();
+//declare it to class level and init it oncreate
+         easyDB = EasyDB.init(this,"ITEMS_DB")
+                .setTableName("ITEMS_TABLE")
+                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
+                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                .doneTableColumn();
 
 //each shop has its own products and orders so if user add item to cart and open cart in different shop then cart should be different
         //so delete cart data whenever user open this activity
 
          deleteCartData();
+        cartCount();
 
          //search
         searchProductEt.addTextChangedListener(new TextWatcher() {
@@ -177,18 +192,24 @@ private ProgressDialog progressDialog;
     }
 
     private void deleteCartData() {
-        EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
-                .setTableName("ITEMS_TABLE")
-                .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
-                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
-                .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
-                .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
-                .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
-                .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
-                .doneTableColumn();
-        easyDB.deleteAllDataFromTable();//delete all records from cart
-    }
 
+        easyDB.deleteAllDataFromTable();//delete all records from cart
+
+    }
+public void cartCount(){
+        //keep it public so that we can access in adapter
+    //get cart count
+    int count=easyDB.getAllData().getCount();
+    if(count<=0){
+        //no itenm in cart ,hide cart count textview
+    cartCountTv.setVisibility(View.GONE);
+    }
+    else{
+        //have items in cart,show cart textview and set count
+        cartCountTv.setVisibility(View.VISIBLE);
+        cartCountTv.setText(""+count);//conncatenate with string beacz we cant set integer in textview
+    }
+}
     public double allTotalPrice=0.00;
     //need to access these views in adapter so making public
     public TextView dFeeTv,sTotalTv,allTotalPriceTv;
