@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.FilterProductUser;
 import com.example.grocery.R;
+import com.example.grocery.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
@@ -130,12 +131,12 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         Button continueBtn= view.findViewById(R.id.continueBtn);
 
         //get data from model
-        final String productId = modelProduct.getProuctId();
-        String title = modelProduct.getProuctTitle();
-        String productQuantity = modelProduct.getProuctQuantity();
-        String description = modelProduct.getProuctDescription();
+        final String productId = modelProduct.getProductId();
+        String title = modelProduct.getProductTitle();
+        String productQuantity = modelProduct.getProductQuantity();
+        String description = modelProduct.getProductDescription();
         String discountNote = modelProduct.getDiscountNote();
-        String image = modelProduct.getProuctIcon();
+        String image = modelProduct.getDiscountAvailable();
 
         final String price;
         if (modelProduct.getDiscountAvailable().equals("true")){
