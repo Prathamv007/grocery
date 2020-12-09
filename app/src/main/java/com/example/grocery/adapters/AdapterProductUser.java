@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.FilterProductUser;
 import com.example.grocery.R;
+import com.example.grocery.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
