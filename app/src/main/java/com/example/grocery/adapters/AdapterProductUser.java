@@ -11,12 +11,14 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.FilterProductUser;
 import com.example.grocery.R;
+import com.example.grocery.activities.ShopDetailsActivity;
 import com.example.grocery.models.ModelProduct;
 import com.squareup.picasso.Picasso;
 
@@ -136,7 +138,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         String productQuantity = modelProduct.getProductQuantity();
         String description = modelProduct.getProductDescription();
         String discountNote = modelProduct.getDiscountNote();
-        String image = modelProduct.getDiscountAvailable();
+        String image = modelProduct.getProductIcon();
 
         final String price;
         if (modelProduct.getDiscountAvailable().equals("true")){
@@ -157,7 +159,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         quantity= 1;
 
         //dialog
-        AlterDialog.Builder builder =new AlterDialog.Builder(context);
+        AlertDialog.Builder builder =new AlertDialog.Builder(context);
         builder.setView(view);
 
         try{
@@ -242,6 +244,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .doneDataAdding();
 
         Toast.makeText(context,"Added to cart...",Toast.LENGTH_SHORT).show();
+
+        //update cart count
+        ((ShopDetailsActivity)context).cartCount();
 
     }
 

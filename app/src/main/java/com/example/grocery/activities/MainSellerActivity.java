@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.grocery.ProfileEditSellerActivity;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterProductSeller;
 import com.example.grocery.constants;
