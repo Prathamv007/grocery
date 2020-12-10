@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_below="@+id/addressEt"
-        android:text="Update"
+        android:text="UpdateS"
         android:layout_centerHorizontal="true"/>
 
 

@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String accountType=""+dataSnapshot.child("account type").getValue();
+                        String accountType=""+dataSnapshot.child("accountType").getValue();
                         if(accountType.equals("Seller")){
 
                             //user is seller

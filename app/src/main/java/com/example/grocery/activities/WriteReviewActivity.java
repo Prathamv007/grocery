@@ -43,7 +43,7 @@ private FirebaseAuth firebaseAuth;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_review);
         //init ui views
-        backBtn=findViewById(R.id.backbtn);
+        backBtn=findViewById(R.id.backBtn);
         profileIv=findViewById(R.id.profileIv);
         shopNameTv=findViewById(R.id.shopNameTv);
         ratingBar=findViewById(R.id.ratingBar);

@@ -101,7 +101,7 @@
             android:drawablePadding="10dp"
             android:inputType="textCapWords"
             android:padding="10dp"
-            android:layout_below="@id/titleEt"/>
+            android:layout_below="@id/categoryTv"/>
 
         <EditText
             android:layout_width="match_parent"
