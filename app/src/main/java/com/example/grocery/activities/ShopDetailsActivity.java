@@ -48,7 +48,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
 private ImageView shopIv;
     private TextView  shopNameTv,phoneTv,emailTv,openClosedTv,deliveryFeeTv,addressTv,filteredProductsTv,cartCountTv;
-    private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn;
+    private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn,reviewsBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
     private String shopUid;
@@ -87,6 +87,7 @@ private ProgressDialog progressDialog;
         callBtn=findViewById(R.id.callBtn);
         productsRv =findViewById(R.id.productsRv);
         cartCountTv =findViewById(R.id.cartCountTv);
+        reviewsBtn=findViewById(R.id.reviewsBtn);
         //init progress dialog
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("PLEASE WAIT");
@@ -187,6 +188,17 @@ private ProgressDialog progressDialog;
                                 }
                             }
                         }).show();
+            }
+        });
+
+        //handle reviewbtn click,open review activity
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass shop uid to show its reviews
+                Intent intent=new Intent(ShopDetailsActivity.this,ShopsReviewsActivity.class);
+                intent.putExtra("shopUid",shopUid);
+                startActivity(intent);
             }
         });
     }

@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.WriteReviewActivity"></activity>
+        <activity android:name=".activities.ShopsReviewsActivity"></activity>
+        <activity android:name=".activities.WriteReviewActivity" />
         <activity android:name=".activities.OrderDetailsUsersActivity" />
         <activity
             android:name=".activities.ShopDetailsActivity"
