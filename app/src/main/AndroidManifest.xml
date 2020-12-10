@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.OrderDetailsUsersActivity"></activity>
+        <activity android:name=".activities.WriteReviewActivity"></activity>
+        <activity android:name=".activities.OrderDetailsUsersActivity" />
         <activity
             android:name=".activities.ShopDetailsActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -34,9 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>
 
 </manifest>
