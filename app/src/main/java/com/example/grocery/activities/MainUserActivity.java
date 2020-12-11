@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 public class MainUserActivity extends AppCompatActivity {
     private TextView nameTv,emailTv,phoneTv,tabShopsTv,tabsOrdersTv;
-    private ImageButton logoutBtn,editProfileBtn;
+    private ImageButton logoutBtn,editProfileBtn,settingsBtn;
     private RelativeLayout shopsRl,ordersRl;
     private ImageView profileIv;
     private RecyclerView shopsRv,ordersRv;
@@ -64,6 +64,7 @@ public class MainUserActivity extends AppCompatActivity {
         shopsRv=findViewById(R.id.shopsRv);
         ordersRl=findViewById(R.id.ordersRl);
         ordersRv=findViewById(R.id.ordersRv);
+        settingsBtn = findViewById(R.id.settingsBtn);
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("please wait");
@@ -100,7 +101,23 @@ public class MainUserActivity extends AppCompatActivity {
                 }
             });
 
+
+
+
+        //start settings screen
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainUserActivity.this,SettingsActivity.class));
+
+            }
+        });
+
+
     }
+
+
+
 
     private void showShopsUI() {
         //show ORDERS ui,hide SHOP ui
@@ -190,7 +207,7 @@ public class MainUserActivity extends AppCompatActivity {
                                 Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(profileIv);
                             }
                             catch (Exception e){
-                            profileIv.setImageResource(R.drawable.ic_person_gray);
+                            //profileIv.setImageResource(R.drawable.ic_person_gray);
                             }
                             //load only those shops that are in city of user
                             loadShops(city);

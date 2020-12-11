@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.OrderDetailsUsersActivity">
+    <!--toolbar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_rect01">
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/backBtn"
+            android:src="@drawable/ic_back_white"
+            android:background="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Order Details"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/writeReviewBtn"
+            android:src="@drawable/ic_rate_white"
+            android:layout_alignParentEnd="true"
+            android:background="@null"
+            />
+
+
+    </RelativeLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="3dp"
+        app:contentPadding="5dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="OrderId"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                  />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12121212"
+                    android:layout_weight="1"
+                    android:id="@+id/orderIdTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Date"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20/05/2020"
+                    android:layout_weight="1"
+                    android:id="@+id/dateTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Order Status  "
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Progress"
+                    android:layout_weight="1"
+                    android:id="@+id/orderStatusTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Shop Name"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ABC Shop"
+                    android:layout_weight="1"
+                    android:id="@+id/shopNameTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Shop Name"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8"
+                    android:layout_weight="1"
+                    android:id="@+id/totalItemsTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Amount"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#100"
+                    android:layout_weight="1"
+                    android:id="@+id/amountTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Delivery Address   "
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorBlack"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ABC City dyz."
+                    android:layout_weight="1"
+                    android:id="@+id/addressTv"
+                    android:textStyle="bold"
+
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </TableRow>
+        </TableLayout>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold"
+        android:text="Ordered Items"
+        android:textAlignment="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/itemsRv"
+        tools:listitem="@layout/row_ordereditem">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

@@ -150,6 +150,7 @@ android:layout_centerHorizontal="true"
         android:text="10"
         android:textSize="8sp"
         android:gravity="center"
+        android:layout_alignParentEnd="true"
         android:background="@drawable/shape_circle03"
         android:layout_width="20dp"
         android:layout_height="20dp"
@@ -157,7 +158,15 @@ android:layout_centerHorizontal="true"
         />
 
 
-
+<!--show shop reviews-->
+<ImageButton
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:id="@+id/reviewsBtn"
+    android:layout_toStartOf="@id/cartBtn"
+    android:layout_centerVertical="true"
+    android:src="@drawable/ic_star_white"
+    android:background="@android:color/transparent"/>
 
 </RelativeLayout>
 <!--    products-->

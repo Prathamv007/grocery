@@ -11,8 +11,6 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -145,7 +143,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             //product have discount
             price= modelProduct.getDiscountPrice();
             discountedNoteTv.setVisibility(View.VISIBLE);
-            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);//add strike through ON ORIGINAL PRICE
+            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG); //add strike through ON ORIGINAL PRICE
         }
         else{
             //product don"t have discount
@@ -235,7 +233,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
                 .doneTableColumn();
 
-        Boolean b= easyDB.addData("Item_Id",itemId)
+        Boolean b = easyDB.addData("Item_Id",itemId)
                 .addData("Item_PId",productId)
                 .addData("Item_Name",title)
                 .addData("Item_Price_Each",priceEach)

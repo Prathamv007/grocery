@@ -1,6 +1,7 @@
 package com.example.grocery.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocery.R;
+import com.example.grocery.activities.OrderDetailsUsersActivity;
 import com.example.grocery.models.ModelOrderUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,12 +48,12 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
     public void onBindViewHolder(@NonNull HolderOrderUser holder, int position) {
 //get data
         ModelOrderUser modelOrderUser=orderUserList.get(position);
-        String orderId=modelOrderUser.getOrderId();
+        final String orderId=modelOrderUser.getOrderId();
         String orderBy=modelOrderUser.getOrderBy();
         String orderCost=modelOrderUser.getOrderCost();
         String orderStatus=modelOrderUser.getOrderStatus();
         String orderTime=modelOrderUser.getOrderTime();
-        String orderTo=modelOrderUser.getOrderTo();
+        final String orderTo=modelOrderUser.getOrderTo();
 
         //get shop info
         loadShopInfo(modelOrderUser,holder);
@@ -75,6 +77,16 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
         String formatedDate= DateFormat.format("dd/MM/yyyy",calendar).toString(); //27/08/2002
 
         holder.dateTv.setText(formatedDate);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open order details,we need to keep tehre orderid,orderto
+                Intent intent=new Intent(context, OrderDetailsUsersActivity.class);
+                intent.putExtra("orderTo",orderTo);
+                intent.putExtra("orderId",orderId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void loadShopInfo(ModelOrderUser modelOrderUser, final HolderOrderUser holder) {

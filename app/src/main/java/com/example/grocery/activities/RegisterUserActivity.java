@@ -49,17 +49,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class RegisterUserActivity extends AppCompatActivity implements LocationListener {
-private ImageButton backBtn,gpsbtn;
-private ImageView profileIv;
-private Button RegisterBtn;
-private TextView RegisterSellerTv;
-private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,emailEt,passwordEt,confpassdEt,addressEt;
+    private ImageButton backBtn, gpsBtn;
+    private ImageView profileIv;
+    private Button RegisterBtn;
+    private TextView RegisterSellerTv;
+    private EditText nameEt, phoneEt, countryEt, stateEt, cityEt, emailEt, passwordEt, confpassdEt, addressEt;
     //PERMISSION CONSTANTS
-    private static final int LOCATION_REQUEST_CODE=100;
-    private static final int CAMERA_REQUEST_CODE=200;
-    private static final int STORAGE_REQUEST_CODE=300;
-    private static final int IMAGE_PICK_GALLERY_CODE=400;
-    private static final int IMAGE_PICK_CAMERA_CODE=500;
+    private static final int LOCATION_REQUEST_CODE = 100;
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 300;
+    private static final int IMAGE_PICK_GALLERY_CODE = 400;
+    private static final int IMAGE_PICK_CAMERA_CODE = 500;
 
     //permission arrays
     private String[] localPermission;
@@ -67,7 +67,7 @@ private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,emailEt,passwordEt,conf
     private String[] storagePermission;
     private Uri image_uri;
     private LocationManager locationManager;
-    private double latitude,longitude;
+    private double latitude, longitude;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
@@ -77,28 +77,28 @@ private EditText nameEt,phoneEt,countryEt,stateEt,cityEt,emailEt,passwordEt,conf
         setContentView(R.layout.activity_register_user);
 
         //init ui views
-        RegisterSellerTv=findViewById(R.id.RegisterSellerTv);
-RegisterBtn=findViewById(R.id.RegisterBtn);
-        backBtn=findViewById(R.id.backBtn);
-        gpsbtn=findViewById(R.id.gpsbtn);
-        profileIv=findViewById(R.id.profileIv);
-        nameEt=findViewById(R.id.nameEt);
-        phoneEt=findViewById(R.id.phoneEt);
-        addressEt=findViewById(R.id.addressEt);
-        countryEt=findViewById(R.id.countryEt);
-        stateEt=findViewById(R.id.stateEt);
-        cityEt=findViewById(R.id.cityEt);
-        emailEt=findViewById(R.id.emailEt);
-        passwordEt=findViewById(R.id.passwordEt);
-        confpassdEt=findViewById(R.id.confpassdEt);
+        RegisterSellerTv = findViewById(R.id.RegisterSellerTv);
+        RegisterBtn = findViewById(R.id.RegisterBtn);
+        backBtn = findViewById(R.id.backBtn);
+        gpsBtn = findViewById(R.id.gpsBtn);
+        profileIv = findViewById(R.id.profileIv);
+        nameEt = findViewById(R.id.nameEt);
+        phoneEt = findViewById(R.id.phoneEt);
+        addressEt = findViewById(R.id.addressEt);
+        countryEt = findViewById(R.id.countryEt);
+        stateEt = findViewById(R.id.stateEt);
+        cityEt = findViewById(R.id.cityEt);
+        emailEt = findViewById(R.id.emailEt);
+        passwordEt = findViewById(R.id.passwordEt);
+        confpassdEt = findViewById(R.id.confpassdEt);
 
         //init permission arrays
-        localPermission=new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-        cameraPermission=new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermission=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        localPermission = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+        cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        firebaseAuth=FirebaseAuth.getInstance();
-        progressDialog=new ProgressDialog(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
@@ -109,14 +109,13 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
             }
         });
 
-        gpsbtn.setOnClickListener(new View.OnClickListener() {
+        gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //detect current location
-                if (checkPermissions()){
+                if (checkPermissions()) {
 //already allowed
-                }
-                else {
+                } else {
                     //denied,request permission
                     requestLocationPermission();
                 }
@@ -132,7 +131,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
         RegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           //register user
+                //register user
                 inputData();
             }
         });
@@ -140,33 +139,32 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
             @Override
             public void onClick(View v) {
                 //open register seller activity
-                startActivity(new Intent(RegisterUserActivity.this,RegisterSellerActivity.class));
+                startActivity(new Intent(RegisterUserActivity.this, RegisterSellerActivity.class));
             }
         });
     }
 
-    private String fullName,state,country,city,email,password,confpasswd,phoneNumber,address;
+    private String fullName, state, country, city, email, password, confpasswd, phoneNumber, address;
+
     private void inputData() {
         //input data
-        fullName=nameEt.getText().toString().trim();
-        state=stateEt.getText().toString().trim();
-        country=countryEt.getText().toString().trim();
-        city=cityEt.getText().toString().trim();
-      address=addressEt.getText().toString().trim();
-        email=emailEt.getText().toString().trim();
-        password=passwordEt.getText().toString().trim();
-        confpasswd=confpassdEt.getText().toString().trim();
-        phoneNumber=phoneEt.getText().toString().trim();
+        fullName = nameEt.getText().toString().trim();
+        state = stateEt.getText().toString().trim();
+        country = countryEt.getText().toString().trim();
+        city = cityEt.getText().toString().trim();
+        address = addressEt.getText().toString().trim();
+        email = emailEt.getText().toString().trim();
+        password = passwordEt.getText().toString().trim();
+        confpasswd = confpassdEt.getText().toString().trim();
+        phoneNumber = phoneEt.getText().toString().trim();
         //validate data
-        if(TextUtils.isEmpty(fullName))
-        {
-            Toast.makeText(this,"Enter name",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(fullName)) {
+            Toast.makeText(this, "Enter name", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(TextUtils.isEmpty(phoneNumber))
-        {
-            Toast.makeText(this,"Enter phone number",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(phoneNumber)) {
+            Toast.makeText(this, "Enter phone number", Toast.LENGTH_SHORT).show();
             return;
         }
 //        if(TextUtils.isEmpty(email))
@@ -206,21 +204,18 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
             return;
         }*/
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        {
-            Toast.makeText(this,"invalid email pattern",Toast.LENGTH_SHORT).show();
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "invalid email pattern", Toast.LENGTH_SHORT).show();
             return;
 
         }
 
-        if(password.length()<6)
-        {
-            Toast.makeText(this,"Password must be atleast 6 char long",Toast.LENGTH_SHORT).show();
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be atleast 6 char long", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!password.equals(confpasswd))
-        {
-            Toast.makeText(this,"password doesnt match",Toast.LENGTH_SHORT).show();
+        if (!password.equals(confpasswd)) {
+            Toast.makeText(this, "password doesnt match", Toast.LENGTH_SHORT).show();
             return;
         }
         createAccount();
@@ -230,7 +225,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
         progressDialog.setMessage("creating account");
         progressDialog.show();
         //create account
-        firebaseAuth.createUserWithEmailAndPassword(email,password).
+        firebaseAuth.createUserWithEmailAndPassword(email, password).
                 addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -243,44 +238,44 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                     public void onFailure(@NonNull Exception e) {
                         //failed creating account
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterUserActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterUserActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void saveFirebaseData() {
         progressDialog.setMessage("saving account info");
-        final String timestamp=""+System.currentTimeMillis();
-        if(image_uri==null){
+        final String timestamp = "" + System.currentTimeMillis();
+        if (image_uri == null) {
 //save info without iamge
-            HashMap<String,Object> hashMap=new HashMap<>();
-            hashMap.put("uid",""+firebaseAuth.getUid());
-            hashMap.put("email",""+email);
-            hashMap.put("name",""+fullName);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("uid", "" + firebaseAuth.getUid());
+            hashMap.put("email", "" + email);
+            hashMap.put("name", "" + fullName);
 
-            hashMap.put("phone",""+phoneNumber);
+            hashMap.put("phone", "" + phoneNumber);
 
-            hashMap.put("country",""+country);
-            hashMap.put("city",""+city);
-            hashMap.put("state",""+state);
+            hashMap.put("country", "" + country);
+            hashMap.put("city", "" + city);
+            hashMap.put("state", "" + state);
 
-            hashMap.put("address",""+address);
-            hashMap.put("latitude",""+latitude);
-            hashMap.put("longitude",""+longitude);
-            hashMap.put("timestamp",""+timestamp);
-            hashMap.put("accountType","user");
-            hashMap.put("online","true");
+            hashMap.put("address", "" + address);
+            hashMap.put("latitude", "" + latitude);
+            hashMap.put("longitude", "" + longitude);
+            hashMap.put("timestamp", "" + timestamp);
+            hashMap.put("accountType", "user");
+            hashMap.put("online", "true");
 
-            hashMap.put("profileImage","");
+            hashMap.put("profileImage", "");
             //save to db
-            DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
             ref.child(firebaseAuth.getUid()).setValue(hashMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             //db updated
                             progressDialog.dismiss();
-                            startActivity(new Intent(RegisterUserActivity.this,MainUserActivity.class));
+                            startActivity(new Intent(RegisterUserActivity.this, MainUserActivity.class));
                             finish();
                         }
                     })
@@ -289,55 +284,54 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                         public void onFailure(@NonNull Exception e) {
                             //failed updating db
                             progressDialog.dismiss();
-                            startActivity(new Intent(RegisterUserActivity.this,MainUserActivity.class));
+                            startActivity(new Intent(RegisterUserActivity.this, MainUserActivity.class));
                             finish();
                         }
                     });
-        }
-        else{
+        } else {
             //save info with image
 
             //name and path of image
-            String filePathandNmae="profile_images/"+""+firebaseAuth.getUid();
-            StorageReference storageReference= FirebaseStorage.getInstance().getReference(filePathandNmae);
+            String filePathandNmae = "profile_images/" + "" + firebaseAuth.getUid();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathandNmae);
             storageReference.putFile(image_uri).
                     addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             //GET URL OF UPLOADED IMAGE
-                            Task<Uri> uriTask=taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful());
-                            Uri downloadImageUri=  uriTask.getResult();
-                            if(uriTask.isSuccessful()){
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while (!uriTask.isSuccessful()) ;
+                            Uri downloadImageUri = uriTask.getResult();
+                            if (uriTask.isSuccessful()) {
 
                                 //save info without iamge
-                                HashMap<String,Object> hashMap=new HashMap<>();
-                                hashMap.put("uid",""+firebaseAuth.getUid());
-                                hashMap.put("email",""+email);
-                                hashMap.put("name",""+fullName);
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                hashMap.put("uid", "" + firebaseAuth.getUid());
+                                hashMap.put("email", "" + email);
+                                hashMap.put("name", "" + fullName);
 
-                                hashMap.put("phone",""+phoneNumber);
+                                hashMap.put("phone", "" + phoneNumber);
 
-                                hashMap.put("country",""+country);
-                                hashMap.put("city",""+city);
-                                hashMap.put("state",""+state);
-                                hashMap.put("address",""+address);
-                                hashMap.put("latitude",""+latitude);
-                                hashMap.put("longitude",""+longitude);
-                                hashMap.put("timestamp",""+timestamp);
-                                hashMap.put("accountType","user");
-                                hashMap.put("online","true");
+                                hashMap.put("country", "" + country);
+                                hashMap.put("city", "" + city);
+                                hashMap.put("state", "" + state);
+                                hashMap.put("address", "" + address);
+                                hashMap.put("latitude", "" + latitude);
+                                hashMap.put("longitude", "" + longitude);
+                                hashMap.put("timestamp", "" + timestamp);
+                                hashMap.put("accountType", "user");
+                                hashMap.put("online", "true");
 
-                                hashMap.put("profileImage",""+downloadImageUri);//url of uploaded image
+                                hashMap.put("profileImage", "" + downloadImageUri);//url of uploaded image
                                 //save to db
-                                DatabaseReference ref= FirebaseDatabase.getInstance().getReference("users");
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                                 ref.child(firebaseAuth.getUid()).setValue(hashMap)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 //db updated
                                                 progressDialog.dismiss();
-                                                startActivity(new Intent(RegisterUserActivity.this,MainUserActivity.class));
+                                                startActivity(new Intent(RegisterUserActivity.this, MainUserActivity.class));
                                                 finish();
                                             }
                                         })
@@ -346,7 +340,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                                             public void onFailure(@NonNull Exception e) {
                                                 //failed updating db
                                                 progressDialog.dismiss();
-                                                startActivity(new Intent(RegisterUserActivity.this,MainUserActivity.class));
+                                                startActivity(new Intent(RegisterUserActivity.this, MainUserActivity.class));
                                                 finish();
                                             }
                                         });
@@ -356,7 +350,7 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     progressDialog.dismiss();
-                    Toast.makeText(RegisterUserActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -364,61 +358,69 @@ RegisterBtn=findViewById(R.id.RegisterBtn);
     }
 
 
-
     private void showImagePickDialog() {
         //options to display in dialog
-        String[] options={"camera","gallery"};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        String[] options = {"camera", "gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("pick image")
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //handle clicks
-                        if(which==0){
+                        if (which == 0) {
                             //camera clicks
                             if (checkCameraPermission()) {
 //camera permissions allowed
                                 pickfromCamera();
-                            }
-                            else{
+                            } else {
 //not allowed,request
                                 requestCameraPermission();
                             }
-                        }
-                        else{
+                        } else {
                             //gallery clicks
                             if (checkStoragePermission()) {
 //storage permissions allowed
                                 pickimagefromGallery();
-                            }
-                            else{
+                            } else {
 
-                            }requestStoragePermission();
+                            }
+                            requestStoragePermission();
                         }
                     }
                 }).show();
     }
 
-    private void pickimagefromGallery(){
-        Intent intent=new Intent(Intent.ACTION_PICK);
+    private void pickimagefromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
+        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
-    private void pickfromCamera(){
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(MediaStore.Images.Media.TITLE,"Temp_Image Title");
-        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Temp_Image Description");
 
-        image_uri=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
-        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
-        startActivityForResult(intent,IMAGE_PICK_CAMERA_CODE);
+    private void pickfromCamera() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, "Temp_Image Title");
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION, "Temp_Image Description");
+
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
     }
 
     private void detectLocation() {
-        Toast.makeText(this,"please wait...detecting",Toast.LENGTH_LONG).show();
-        locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+        Toast.makeText(this, "please wait...detecting", Toast.LENGTH_LONG).show();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
     private void findAddress() {
         Geocoder geocoder;
