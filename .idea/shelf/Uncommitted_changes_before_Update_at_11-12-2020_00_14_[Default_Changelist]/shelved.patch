@@ -1,0 +1,389 @@
+Index: report.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>grocery app\r\n\r\nname ,  file name(both java nd xml)\r\npratham  { [dialog_cart.xml,row_cartitem.xml,ShopDetailsActivity.java,AdapterCartItem.java,ModelCartItem.java,]-show cart}\r\npratham {[adapterorderuser.java,modelorderuser.java,row_order_user.xml,shopdetailsacivity.java,mainuseractivity.java]-user place and show order}\r\nsuraj { [vdo 6 complete , AdapterProductSeller, filterProduct, filterProduct] modifications:constants, MainSellerActivity], activity_main_seller.xml}\r\npratham{[OrderDetailsUsersActivity.java,AdapterOrderedItem.java,ModelOrderedItem.java,activity_order_details_users.xml,row_ordereditem.xml]-13 User - Place & Order Details}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- report.md	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ report.md	(date 1607625893654)
+@@ -5,3 +5,4 @@
+ pratham {[adapterorderuser.java,modelorderuser.java,row_order_user.xml,shopdetailsacivity.java,mainuseractivity.java]-user place and show order}
+ suraj { [vdo 6 complete , AdapterProductSeller, filterProduct, filterProduct] modifications:constants, MainSellerActivity], activity_main_seller.xml}
+ pratham{[OrderDetailsUsersActivity.java,AdapterOrderedItem.java,ModelOrderedItem.java,activity_order_details_users.xml,row_ordereditem.xml]-13 User - Place & Order Details}
++suraj {[ activity_edit_product.xml,editProductactivity.java]} vdo 7 - seller -Edit Delete Products
+\ No newline at end of file
+Index: app/src/main/java/com/example/grocery/adapters/AdapterProductSeller.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.grocery.adapters;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Paint;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Filter;\r\nimport android.widget.Filterable;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.grocery.FilterProduct;\r\nimport com.example.grocery.R;\r\nimport com.example.grocery.models.ModelProduct;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport java.util.ArrayList;\r\n\r\n/**\r\n * Created by Singh on 09,December,2020\r\n */\r\npublic class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSeller.HolderProductSeller>implements Filterable {\r\n\r\n    private Context context;\r\n    public ArrayList<ModelProduct> productList, filterList;\r\n    private FilterProduct filter;\r\n\r\n    public AdapterProductSeller(Context context, ArrayList<ModelProduct> productList) {\r\n        this.context = context;\r\n        this.productList = productList;\r\n        this.filterList = productList;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public HolderProductSeller onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        //inflate layout\r\n        View view= LayoutInflater.from(context).inflate(R.layout.row_product_seller, parent, false);\r\n        return new HolderProductSeller(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull HolderProductSeller holder, int position) {\r\n        //get data\r\n        ModelProduct modelProduct = productList.get(position);\r\n        String id = modelProduct.getProductId();\r\n        String uid = modelProduct.getUid();\r\n        String discountAvailable = modelProduct.getDiscountAvailable();\r\n        String discountNote = modelProduct.getDiscountNote();\r\n        String discountPrice = modelProduct.getDiscountPrice();\r\n        String productCategory = modelProduct.getProductCategory();\r\n        String productDescription = modelProduct.getProductDescription();\r\n        String icon = modelProduct.getProductIcon();\r\n        String title = modelProduct.getProductTitle();\r\n        String quantity = modelProduct.getProductQuantity();\r\n        String timestamp = modelProduct.getTimestamp();\r\n        String originalPrice = modelProduct.getOriginalPrice();\r\n\r\n        //set data\r\n        holder.titleTv.setText(title);\r\n        holder.quantityTv.setText(quantity);\r\n        holder.discountedNoteTv.setText(discountNote);\r\n        holder.discountedPriceTv.setText(\"$\"+discountPrice);\r\n        holder.originalPricetv.setText(\"$\"+originalPrice);\r\n        if(discountAvailable.equals(\"true\")){\r\n            //product is on discount\r\n            holder.discountedPriceTv.setVisibility(View.VISIBLE);\r\n            holder.discountedNoteTv.setVisibility(View.VISIBLE);\r\n            holder.originalPricetv.setPaintFlags(holder.originalPricetv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //add strike through on original price\r\n\r\n        }\r\n        else {\r\n            //product is not on discount\r\n            holder.discountedPriceTv.setVisibility(View.GONE);\r\n            holder.discountedNoteTv.setVisibility(View.GONE);\r\n        }\r\n        try {\r\n            Picasso.get().load(icon).placeholder(R.drawable.ic_add_shopping_primary).into(holder.productIconIv);\r\n        }\r\n        catch (Exception e){\r\n            holder.productIconIv.setImageResource(R.drawable.ic_add_shopping_primary);\r\n        }\r\n        holder.itemView.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                //handle item clicks, show item details\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return productList.size();\r\n    }\r\n\r\n    @Override\r\n    public Filter getFilter() {\r\n        if(filter == null){\r\n            filter = new FilterProduct(this,filterList);\r\n        }\r\n        return filter;\r\n    }\r\n\r\n    class HolderProductSeller extends RecyclerView.ViewHolder{\r\n\r\n        /*holds views of recyclerview*/\r\n        private ImageView productIconIv;\r\n        private TextView discountedNoteTv, titleTv, quantityTv, discountedPriceTv, originalPricetv;\r\n\r\n\r\n\r\n        public HolderProductSeller(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            productIconIv = itemView.findViewById(R.id.productIconIv);\r\n            discountedNoteTv = itemView.findViewById(R.id.discountedNoteTv);\r\n            titleTv = itemView.findViewById(R.id.titleTv);\r\n            quantityTv = itemView.findViewById(R.id.quantityTv);\r\n            discountedPriceTv = itemView.findViewById(R.id.discountedPriceTv);\r\n            originalPricetv= itemView.findViewById(R.id.originalPriceTv);\r\n\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/grocery/adapters/AdapterProductSeller.java	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/java/com/example/grocery/adapters/AdapterProductSeller.java	(date 1607625613989)
+@@ -1,21 +1,33 @@
+ package com.example.grocery.adapters;
+ 
+ import android.content.Context;
++import android.content.DialogInterface;
++import android.content.Intent;
+ import android.graphics.Paint;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Filter;
+ import android.widget.Filterable;
++import android.widget.ImageButton;
+ import android.widget.ImageView;
+ import android.widget.TextView;
++import android.widget.Toast;
+ 
+ import androidx.annotation.NonNull;
++import androidx.appcompat.app.AlertDialog;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+ import com.example.grocery.FilterProduct;
+ import com.example.grocery.R;
++import com.example.grocery.activities.EditProductActivity;
+ import com.example.grocery.models.ModelProduct;
++import com.google.android.gms.tasks.OnFailureListener;
++import com.google.android.gms.tasks.OnSuccessListener;
++import com.google.android.material.bottomsheet.BottomSheetDialog;
++import com.google.firebase.auth.FirebaseAuth;
++import com.google.firebase.database.DatabaseReference;
++import com.google.firebase.database.FirebaseDatabase;
+ import com.squareup.picasso.Picasso;
+ 
+ import java.util.ArrayList;
+@@ -46,7 +58,7 @@
+     @Override
+     public void onBindViewHolder(@NonNull HolderProductSeller holder, int position) {
+         //get data
+-        ModelProduct modelProduct = productList.get(position);
++        final ModelProduct modelProduct = productList.get(position);
+         String id = modelProduct.getProductId();
+         String uid = modelProduct.getUid();
+         String discountAvailable = modelProduct.getDiscountAvailable();
+@@ -87,10 +99,150 @@
+         holder.itemView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                //handle item clicks, show item details
++                //handle item clicks, show item details (in bottom sheet)
++                detailsBottonSheet(modelProduct); //here modelProduct contains details of clicked product
++            }
++        });
++
++    }
++
++    private void detailsBottonSheet(ModelProduct modelProduct) {
++        //bottom sheet
++        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
++        //inflate view for bottomsheet
++        View view = LayoutInflater.from(context).inflate(R.layout.bs_product_details_seller,null);
++        //set view to bottomsheet
++        bottomSheetDialog.setContentView(view);
++
++
++
++        //init views of bottomsheet
++        ImageButton backBtn = view.findViewById(R.id.backBtn);
++        ImageButton deleteBtn = view.findViewById(R.id.deleteBtn);
++        ImageButton editBtn = view.findViewById(R.id.editBtn);
++        ImageView productIconIv = view.findViewById(R.id.productIconIv);
++        TextView discountNoteTv = view.findViewById(R.id.discountNoteTv);
++        TextView titleTv = view.findViewById(R.id.titleTv);
++        TextView descriptionTv = view.findViewById(R.id.descriptionTv);
++        TextView categoryTv = view.findViewById(R.id.categoryTv);
++        TextView quantityTv = view.findViewById(R.id.quantityTv);
++        TextView discountedPriceTv = view.findViewById(R.id.discountedPriceTv);
++        TextView originalPriceTv = view.findViewById(R.id.originalPriceTv);
++
++        //get data
++        final String id = modelProduct.getProductId();
++        String uid = modelProduct.getUid();
++        String discountAvailable = modelProduct.getDiscountAvailable();
++        String discountNote = modelProduct.getDiscountNote();
++        String discountPrice = modelProduct.getDiscountPrice();
++        String productCategory = modelProduct.getProductCategory();
++        String productDescription = modelProduct.getProductDescription();
++        String icon = modelProduct.getProductIcon();
++        final String title = modelProduct.getProductTitle();
++        String timestamp = modelProduct.getTimestamp();
++        String originalPrice = modelProduct.getOriginalPrice();
++        String quantity = modelProduct.getProductQuantity();
++
++        //set data
++        titleTv.setText(title);
++        descriptionTv.setText(productDescription);
++        categoryTv.setText(productCategory);
++        quantityTv.setText(quantity);
++        discountNoteTv.setText(discountNote);
++        discountedPriceTv.setText("$"+discountPrice);
++        originalPriceTv.setText("$"+originalPrice);
++        if(discountAvailable.equals("true")){
++            //product is on discount
++            discountedPriceTv.setVisibility(View.VISIBLE);
++            discountNoteTv.setVisibility(View.VISIBLE);
++            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //add strike through on original price
++
++        }
++        else {
++            //product is not on discount
++            discountedPriceTv.setVisibility(View.GONE);
++            discountNoteTv.setVisibility(View.GONE);
++        }
++        try {
++            Picasso.get().load(icon).placeholder(R.drawable.ic_add_shopping_primary).into(productIconIv);
++        }
++        catch (Exception e){
++            productIconIv.setImageResource(R.drawable.ic_add_shopping_primary);
++        }
++
++        //show dialog
++        bottomSheetDialog.show();
++
++
++        //edit click
++        editBtn.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                bottomSheetDialog.dismiss();
++                //open edit product activity, pass id of product
++                Intent intent = new Intent(context, EditProductActivity.class);
++                intent.putExtra(  "productId", id);
++                context.startActivity(intent);
++            }
++        });
++        //delete click
++        deleteBtn.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                bottomSheetDialog.dismiss();
++                //show delete confirm dialog
++                AlertDialog.Builder builder = new AlertDialog.Builder(context);
++                builder.setTitle("Delete")
++				.setMessage("Are you sure you want tot delete product "+title+" ?")
++				.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
++                    @Override
++                    public void onClick(DialogInterface dialog, int which){
++                        //delete
++                        deleteProduct(id);//id is the product id
++                    }
++
++                })
++				.setNegativeButton("NO", new DialogInterface.OnClickListener() {
++                    @Override
++                    public void onClick(DialogInterface dialog, int which){
++                        //cancel, dismiss dialog
++                        dialog.dismiss();
++                    }
++
++                }).show();
++            }
++        });
++        //back click
++        backBtn.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                //dismiss bottom sheet
++                bottomSheetDialog.dismiss();
+             }
+         });
+ 
++    }
++
++
++    private void deleteProduct(String id) {
++        //delete product using its id
++        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
++        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
++        reference.child(firebaseAuth.getUid()).child("Products").child(id).removeValue()
++                .addOnSuccessListener(new OnSuccessListener<Void>() {
++                    @Override
++                    public void onSuccess(Void aVoid) {
++                        //product deleted
++                        Toast.makeText(context, "Product deleted...", Toast.LENGTH_SHORT).show();
++                    }
++                })
++                .addOnFailureListener(new OnFailureListener() {
++                    @Override
++                    public void onFailure(@NonNull Exception e) {
++                        //failed deleting product
++                        Toast.makeText(context,  ""+e.getMessage(), Toast.LENGTH_SHORT).show();
++                    }
++                });
+     }
+ 
+     @Override
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ .idea/gradle.xml	(date 1607588564126)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/layout/bs_product_details_seller.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--bottom sheet layout to display product details and edit/delete options-->\r\n\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\">\r\n\r\n    <RelativeLayout\r\n        android:id=\"@+id/toolbarRl\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"100dp\"\r\n        android:background=\"@drawable/shape_rect01\"\r\n        android:padding=\"10dp\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/backBtn\"\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:background=\"@null\"\r\n            android:src=\"@drawable/ic_back_white\" />\r\n\r\n        <ImageView\r\n            android:id=\"@+id/deleteBtn\"\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:layout_alignParentEnd=\"true\"\r\n            android:background=\"@null\"\r\n            android:src=\"@drawable/ic_delete_white\" />\r\n\r\n        <ImageView\r\n            android:id=\"@+id/editBtn\"\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:layout_toStartOf=\"@id/deleteBtn\"\r\n            android:background=\"@null\"\r\n            android:src=\"@drawable/ic_edit_white\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/nameTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginTop=\"2dp\"\r\n            android:text=\"Product Details\"\r\n            android:textColor=\"#FBFBFB\"\r\n            android:textSize=\"20sp\"\r\n            android:textStyle=\"bold|italic\" />\r\n\r\n    </RelativeLayout>\r\n\r\n    <ImageView\r\n        android:layout_width=\"120dp\"\r\n        android:layout_height=\"120dp\"\r\n        android:id=\"@+id/productIconIv\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"50dp\"\r\n        android:adjustViewBounds=\"true\"\r\n        android:background=\"@color/colorPrimary\"\r\n        android:padding=\"5dp\"\r\n        android:src=\"@drawable/ic_add_shopping_white\"/>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_below=\"@id/productIconIv\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:orientation=\"vertical\"\r\n        android:padding=\"10dp\">\r\n        <TextView\r\n            android:id=\"@+id/discountNoteTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/shape_rect05\"\r\n            android:padding=\"5dp\"\r\n            android:textSize=\"10dp\"\r\n            android:text=\"10% OFF\"\r\n            android:paddingEnd=\"5dp\"\r\n            android:textColor=\"#36A63C\"/>\r\n        <TextView\r\n            android:id=\"@+id/titleTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"5dp\"\r\n            android:text=\"The Product Title\"\r\n            android:textColor=\"#070707\"\r\n            android:textSize=\"18sp\"\r\n            android:textStyle=\"bold\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/descriptionTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"5dp\"\r\n            android:text=\"The Product Description\"\r\n            android:textColor=\"#070707\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/categoryTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"5dp\"\r\n            android:text=\"Category\"\r\n            android:textColor=\"#070707\"/>\r\n\r\n        <TextView\r\n            android:id=\"@+id/quantityTv\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"5dp\"\r\n            android:text=\"Quantity\"\r\n            android:textColor=\"#070707\"/>\r\n\r\n        <RelativeLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"5dp\">\r\n            <TextView\r\n                android:id=\"@+id/discountedPriceTv\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"$10\"\r\n                android:layout_marginEnd=\"10dp\"\r\n                android:textColor=\"#6E6E6E\"/>\r\n\r\n            <TextView\r\n                android:id=\"@+id/originalPriceTv\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"$15\"\r\n                android:layout_toEndOf=\"@id/discountedPriceTv\"\r\n                android:textColor=\"#6E6E6E\"/>\r\n\r\n\r\n        </RelativeLayout>\r\n\r\n\r\n    </LinearLayout>\r\n\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/bs_product_details_seller.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/res/layout/bs_product_details_seller.xml	(date 1607602696205)
+@@ -33,6 +33,7 @@
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_toStartOf="@id/deleteBtn"
++            android:layout_marginRight="10dp"
+             android:background="@null"
+             android:src="@drawable/ic_edit_white" />
+ 
+@@ -67,6 +68,7 @@
+         android:layout_marginTop="10dp"
+         android:orientation="vertical"
+         android:padding="10dp">
++
+         <TextView
+             android:id="@+id/discountNoteTv"
+             android:layout_width="wrap_content"
+Index: app/src/main/res/layout/activity_add_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\".activities.AddProductActivity\">\r\n\r\n\r\n    <!--toolbar-->\r\n    <RelativeLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"60dp\"\r\n        android:padding=\"10dp\"\r\n        android:background=\"@drawable/shape_rect01\">\r\n        <ImageButton\r\n            android:layout_width=\"30dp\"\r\n            android:layout_height=\"30dp\"\r\n            android:id=\"@+id/backBtn\"\r\n            android:src=\"@drawable/ic_back_white\"\r\n            android:background=\"@null\"/>\r\n\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:text=\"Add Product\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textSize=\"20dp\"\r\n            android:textStyle=\"bold\"/>\r\n\r\n\r\n    </RelativeLayout>\r\n\r\n\r\n    <!--form to input data-->\r\n    <RelativeLayout\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\">\r\n\r\n        <de.hdodenhof.circleimageview.CircleImageView\r\n            android:id=\"@+id/productIconIv\"\r\n            android:layout_width=\"100dp\"\r\n            android:layout_height=\"100dp\"\r\n            android:layout_alignParentStart=\"true\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            android:layout_marginStart=\"4dp\"\r\n            android:layout_marginTop=\"20dp\"\r\n            android:src=\"@drawable/ic_cart_gray\"\r\n            app:civ_border_color=\"@color/colorPrimary\"\r\n            app:civ_border_width=\"1dp\"/>\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/titleEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:hint=\"Title\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_title_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"textPersonName|textCapWords\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@+id/productIconIv\"/>\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/descriptionEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_title_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"textMultiLine|textCapSentences\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/titleEt\"/>\r\n\r\n        <TextView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/categoryTv\"\r\n            android:layout_margin=\"5dp\"\r\n            android:drawableEnd=\"@drawable/ic_down_gray\"\r\n            android:hint=\"Category\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_categories_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"textMultiLine|textCapSentences\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/descriptionEt\"/>\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/quantityEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:hint=\"Quantity e.g kg, g , etc\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_cart_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"textCapWords\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/titleEt\"/>\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/priceEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:hint=\"Price\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_cart_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"numberDecimal\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/quantityEt\" />\r\n\r\n        <!--Whatever or not product on discount-->\r\n        <androidx.appcompat.widget.SwitchCompat\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/discountSwitch\"\r\n            android:layout_margin=\"5dp\"\r\n            android:layout_below=\"@id/priceEt\"\r\n            android:text=\"Discount\"/>\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/discountPriceEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:hint=\"Discount Price\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_cart_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"numberDecimal\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/discountSwitch\"\r\n            />\r\n\r\n        <EditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/discountNoteEt\"\r\n            android:layout_margin=\"5dp\"\r\n            android:hint=\"Discount\"\r\n            android:background=\"@drawable/shape_rect02\"\r\n            android:drawableStart=\"@drawable/ic_cart_gray\"\r\n            android:drawablePadding=\"10dp\"\r\n            android:inputType=\"textCapSentences\"\r\n            android:padding=\"10dp\"\r\n            android:layout_below=\"@id/discountPriceEt\"\r\n            />\r\n\r\n        <Button\r\n            android:id=\"@+id/addProductBtn\"\r\n            android:text=\"Add Product\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_below=\"@id/discountNoteEt\"\r\n            android:layout_centerHorizontal=\"true\"\r\n            style=\"@style/Widget.AppCompat.Button.Colored\"\r\n            android:minWidth=\"150dp\"\r\n            android:layout_marginTop=\"5dp\"/>\r\n\r\n\r\n\r\n\r\n\r\n\r\n    </RelativeLayout>\r\n\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_add_product.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/res/layout/activity_add_product.xml	(date 1607621511048)
+@@ -47,7 +47,7 @@
+             android:layout_centerHorizontal="true"
+             android:layout_marginStart="4dp"
+             android:layout_marginTop="20dp"
+-            android:src="@drawable/ic_cart_gray"
++            android:src="@drawable/ic_add_shopping_primary"
+             app:civ_border_color="@color/colorPrimary"
+             app:civ_border_width="1dp"/>
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ .idea/misc.xml	(date 1607610728972)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: app/src/main/res/layout/activity_splash.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#E8FFE6\"\r\n\r\n    tools:context=\".activities.SplashActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/iconiv\"\r\n        android:layout_width=\"344dp\"\r\n        android:layout_height=\"397dp\"\r\n        android:layout_centerInParent=\"true\"\r\n        android:src=\"@drawable/logo\" />\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_splash.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/res/layout/activity_splash.xml	(date 1607588877175)
+@@ -5,7 +5,6 @@
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:background="#E8FFE6"
+-
+     tools:context=".activities.SplashActivity">
+ 
+     <ImageView
+@@ -13,6 +12,6 @@
+         android:layout_width="344dp"
+         android:layout_height="397dp"
+         android:layout_centerInParent="true"
+-        android:src="@drawable/logo" />
++        android:src="@drawable/logo"/>
+ 
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/grocery/adapters/AdapterProductUser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.grocery.adapters;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.graphics.Paint;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.Filter;\r\nimport android.widget.Filterable;\r\nimport android.widget.ImageButton;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.app.AlertDialog;\r\nimport android.content.DialogInterface;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.grocery.FilterProductUser;\r\nimport com.example.grocery.R;\r\nimport com.example.grocery.activities.ShopDetailsActivity;\r\nimport com.example.grocery.models.ModelProduct;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport android.content.Context;\r\nimport android.widget.Toast;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\n\r\nimport p32929.androideasysql_library.Column;\r\nimport p32929.androideasysql_library.EasyDB;\r\n\r\npublic class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements Filterable {\r\n    private Context context;\r\n    public ArrayList<ModelProduct>productsList,filterList;\r\n    private FilterProductUser filter;\r\n\r\n    public AdapterProductUser(Context context, ArrayList<ModelProduct> productsList) {\r\n        this.context = context;\r\n        this.productsList = productsList;\r\n        this.filterList = filterList;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public HolderProductUser onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        //inflate layout\r\n        View view= LayoutInflater.from(context).inflate(R.layout.row_product_user,parent,false);\r\n\r\n        return new HolderProductUser(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull HolderProductUser holder, int position) {\r\n//get data\r\n        final ModelProduct modelProduct=productsList.get(position);\r\n        String discountAvailable=modelProduct.getDiscountAvailable();\r\n        String discountNote=modelProduct.getDiscountNote();\r\n        String discountPrice=modelProduct.getDiscountPrice();\r\n        String productCategory=modelProduct.getProductCategory();\r\n        String originalPrice=modelProduct.getOriginalPrice();\r\n        String productTitle=modelProduct.getProductTitle();\r\n        String productQuantity=modelProduct.getProductQuantity();\r\n        String productId=modelProduct.getProductId();\r\n        String timestamp=modelProduct.getTimestamp();\r\n        String productIcon=modelProduct.getProductIcon();\r\n        String productDescription=modelProduct.getProductDescription();\r\n\r\n  //set data\r\n        holder.titleTv.setText(productTitle);\r\n        holder.discountedNoteTv.setText(discountNote);\r\n        holder.discountedPriceTv.setText(\"$\"+discountPrice);\r\n        holder.originalPriceTv.setText(\"$\"+originalPrice);\r\n        holder.descriptionTv.setText(productDescription);\r\n\r\n        if(discountAvailable.equals(\"true\")){\r\n            //product is on discount\r\n            holder.discountedPriceTv.setVisibility(View.VISIBLE);\r\n            holder.discountedNoteTv.setVisibility(View.VISIBLE);\r\n            holder.originalPriceTv.setPaintFlags(holder.originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);//SET STRIKES ON ORIGINAL PRICE\r\n    }\r\n        else{\r\n\r\n            //product is not on discount\r\n            holder.discountedPriceTv.setVisibility(View.GONE);\r\n            holder.discountedNoteTv.setVisibility(View.GONE);\r\n            holder.originalPriceTv.setPaintFlags(0);\r\n\r\n\r\n        }\r\n        try {\r\n            Picasso.get().load(productIcon).placeholder(R.drawable.ic_cart_gray).into(holder.productIconIv);\r\n        }\r\n        catch (Exception e){\r\n        holder.productIconIv.setImageResource(R.drawable.ic_cart_gray);\r\n\r\n        }\r\n        holder.addToCartTv.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                //add product to cart\r\n                showQuantityDialog(modelProduct);\r\n            }\r\n        });\r\n        holder.itemView.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                //SHOW PRODUCT DETAILS\r\n\r\n            }\r\n        });\r\n    }\r\n\r\n    private Double cost =0.0;\r\n    private Double finalCost=0.0;\r\n    private int quantity=0;\r\n    private void showQuantityDialog(ModelProduct modelProduct) {\r\n        //inflate layout for dialog\r\n        View view= LayoutInflater.from(context).inflate(R.layout.dialog_quantity,null);\r\n        //init layout views\r\n        ImageView productIv= view.findViewById(R.id.productIv);\r\n        final TextView titleTv= view.findViewById(R.id.titleTv);\r\n        TextView pQuantityTv= view.findViewById(R.id.pQuantityTv);\r\n        TextView descriptionTv= view.findViewById(R.id.descriptionTv);\r\n        TextView discountedNoteTv= view.findViewById(R.id.discountedNoteTv);\r\n        final TextView originalPriceTv= view.findViewById(R.id.originalPriceTv);\r\n        TextView priceDiscountedTv= view.findViewById(R.id.priceDiscountedTv);\r\n        final TextView finalPriceTv= view.findViewById(R.id.finalPriceTv);\r\n        ImageButton decrementBtn= view.findViewById(R.id.decrementBtn);\r\n        final TextView quantityTv= view.findViewById(R.id.quantityTv);\r\n        ImageButton incrementBtn= view.findViewById(R.id.incrementBtn);\r\n        Button continueBtn= view.findViewById(R.id.continueBtn);\r\n\r\n        //get data from model\r\n        final String productId = modelProduct.getProductId();\r\n        String title = modelProduct.getProductTitle();\r\n        String productQuantity = modelProduct.getProductQuantity();\r\n        String description = modelProduct.getProductDescription();\r\n        String discountNote = modelProduct.getDiscountNote();\r\n        String image = modelProduct.getProductIcon();\r\n\r\n        final String price;\r\n        if (modelProduct.getDiscountAvailable().equals(\"true\")){\r\n            //product have discount\r\n            price= modelProduct.getDiscountPrice();\r\n            discountedNoteTv.setVisibility(View.VISIBLE);\r\n            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);//add strike through ON ORIGINAL PRICE\r\n        }\r\n        else{\r\n            //product don\"t have discount\r\n            discountedNoteTv.setVisibility(View.GONE);\r\n            priceDiscountedTv.setVisibility(View.GONE);\r\n            price= modelProduct.getOriginalPrice();\r\n        }\r\n\r\n        cost= Double.parseDouble(price.replaceAll(\"$\",\"\"));\r\n        finalCost = Double.parseDouble(price.replaceAll(\"$\",\"\"));\r\n        quantity= 1;\r\n\r\n        //dialog\r\n        AlertDialog.Builder builder =new AlertDialog.Builder(context);\r\n        builder.setView(view);\r\n\r\n        try{\r\n            Picasso.get().load(image).placeholder(R.drawable.ic_cart_gray).into(productIv);\r\n        }\r\n        catch (Exception e){\r\n            productIv.setImageResource(R.drawable.ic_cart_gray);\r\n        }\r\n\r\n        titleTv.setText(\"\"+title);\r\n        pQuantityTv.setText(\"\"+productQuantity);\r\n        descriptionTv.setText(\"\"+description);\r\n        discountedNoteTv.setText(\"\"+discountNote);\r\n        quantityTv.setText(\"\"+quantity);\r\n        originalPriceTv.setText(\"$\"+modelProduct.getOriginalPrice());\r\n        priceDiscountedTv.setText(\"$\"+modelProduct.getDiscountPrice());\r\n        finalPriceTv.setText(\"$\"+finalCost);\r\n\r\n        final AlertDialog dialog = builder.create();\r\n        dialog.show();\r\n\r\n        //increase quantity of the product\r\n        incrementBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                finalCost= finalCost+ cost;\r\n                quantity++;\r\n\r\n                finalPriceTv.setText(\"$\"+finalCost);\r\n                quantityTv.setText(\"\"+quantity);\r\n            }\r\n        });\r\n        //decrement quantity of product, only if quantity is >1\r\n        decrementBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (quantity>1){\r\n                    finalCost= finalCost-cost;\r\n                    quantity--;\r\n\r\n                    finalPriceTv.setText(\"$\"+finalCost);\r\n                    quantityTv.setText(\"\"+quantity);\r\n                }\r\n            }\r\n        });\r\n        continueBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                String title= titleTv.getText().toString().trim();\r\n                String priceEach = price;\r\n                String totalPrice = finalPriceTv.getText().toString().trim().replace(\"$\",\"\");\r\n                String quantity = quantityTv.getText().toString().trim();\r\n\r\n                //add to db(SQlite)\r\n                addToCart(productId,title,priceEach,totalPrice,quantity);\r\n\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n    }\r\n\r\n    private  int itemId =1;\r\n    private void addToCart(String productId, String title, String priceEach, String price, String quantity) {\r\n        itemId++;\r\n\r\n        EasyDB easyDB = EasyDB.init(context,\"ITEMS_DB\")\r\n                .setTableName(\"ITEMS_TABLE\")\r\n                .addColumn(new Column(\"Item_Id\",new String[]{\"text\",\"unique\"}))\r\n                .addColumn(new Column(\"Item_PId\",new String[]{\"text\",\"not null\"}))\r\n                .addColumn(new Column(\"Item_Name\",new String[]{\"text\",\"not null\"}))\r\n                .addColumn(new Column(\"Item_Price_Each\",new String[]{\"text\",\"not null\"}))\r\n                .addColumn(new Column(\"Item_Price\",new String[]{\"text\",\"not null\"}))\r\n                .addColumn(new Column(\"Item_Quantity\",new String[]{\"text\",\"not null\"}))\r\n                .doneTableColumn();\r\n\r\n        Boolean b= easyDB.addData(\"Item_Id\",itemId)\r\n                .addData(\"Item_PId\",productId)\r\n                .addData(\"Item_Name\",title)\r\n                .addData(\"Item_Price_Each\",priceEach)\r\n                .addData(\"Item_Price\",price)\r\n                .addData(\"Item_Quantity\",quantity)\r\n                .doneDataAdding();\r\n\r\n        Toast.makeText(context,\"Added to cart...\",Toast.LENGTH_SHORT).show();\r\n\r\n        //update cart count\r\n        ((ShopDetailsActivity)context).cartCount();\r\n\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return productsList.size();\r\n    }\r\n\r\n    @Override\r\n    public Filter getFilter() {\r\n        if(filter==null){\r\n            filter=new FilterProductUser(this,filterList);\r\n\r\n        }\r\n        return filter;\r\n    }\r\n\r\n\r\n    class HolderProductUser extends RecyclerView.ViewHolder{\r\n\r\n        //uid views\r\n        private ImageView productIconIv;\r\n        private TextView discountedNoteTv,titleTv,descriptionTv,addToCartTv,discountedPriceTv,originalPriceTv;\r\n\r\n        public HolderProductUser(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            //init ui views\r\n            productIconIv=itemView.findViewById(R.id.productIconIv);\r\n            discountedNoteTv=itemView.findViewById(R.id.discountedNoteTv);\r\n            titleTv=itemView.findViewById(R.id.titleTv);\r\n            descriptionTv=itemView.findViewById(R.id.descriptionTv);\r\n            addToCartTv=itemView.findViewById(R.id.addToCartTv);\r\n            discountedPriceTv=itemView.findViewById(R.id.discountedPriceTv);\r\n            originalPriceTv=itemView.findViewById(R.id.originalPriceTv);\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/grocery/adapters/AdapterProductUser.java	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/java/com/example/grocery/adapters/AdapterProductUser.java	(date 1607588877184)
+@@ -11,8 +11,6 @@
+ import android.widget.ImageButton;
+ import android.widget.ImageView;
+ import android.widget.TextView;
+-import android.app.AlertDialog;
+-import android.content.DialogInterface;
+ import androidx.annotation.NonNull;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+@@ -145,7 +143,7 @@
+             //product have discount
+             price= modelProduct.getDiscountPrice();
+             discountedNoteTv.setVisibility(View.VISIBLE);
+-            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);//add strike through ON ORIGINAL PRICE
++            originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG); //add strike through ON ORIGINAL PRICE
+         }
+         else{
+             //product don"t have discount
+@@ -235,7 +233,7 @@
+                 .addColumn(new Column("Item_Quantity",new String[]{"text","not null"}))
+                 .doneTableColumn();
+ 
+-        Boolean b= easyDB.addData("Item_Id",itemId)
++        Boolean b = easyDB.addData("Item_Id",itemId)
+                 .addData("Item_PId",productId)
+                 .addData("Item_Name",title)
+                 .addData("Item_Price_Each",priceEach)
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.grocery\">\r\n\r\n    <uses-permission android:name=\"android.permission.CAMERA\" />\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@drawable/logo\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@drawable/logo\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".activities.OrderDetailsUsersActivity\"></activity>\r\n        <activity\r\n            android:name=\".activities.ShopDetailsActivity\"\r\n            android:windowSoftInputMode=\"stateHidden\" />\r\n        <activity android:name=\".activities.MainUserActivity\" />\r\n        <activity android:name=\".activities.MainSellerActivity\" />\r\n        <activity android:name=\".activities.ForgotPasswordActivity\" />\r\n        <activity android:name=\".activities.RegisterUserActivity\" />\r\n        <activity android:name=\".activities.ProfileEditUserActivity\" />\r\n        <activity android:name=\".activities.RegisterSellerActivity\" />\r\n        <activity android:name=\".activities.LoginActivity\" />\r\n        <activity android:name=\".activities.SplashActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity\r\n            android:name=\"com.theartofdev.edmodo.cropper.CropImageActivity\"\r\n            />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 0d8b76ddc7dcae72aa8288e5f169040b12f113f6)
++++ app/src/main/AndroidManifest.xml	(date 1607610699521)
+@@ -16,7 +16,8 @@
+         android:roundIcon="@drawable/logo"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".activities.OrderDetailsUsersActivity"></activity>
++        <activity android:name=".activities.EditProductActivity"></activity>
++        <activity android:name=".activities.OrderDetailsUsersActivity" />
+         <activity
+             android:name=".activities.ShopDetailsActivity"
+             android:windowSoftInputMode="stateHidden" />
+@@ -34,9 +35,7 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity
+-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+-            />
++        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
