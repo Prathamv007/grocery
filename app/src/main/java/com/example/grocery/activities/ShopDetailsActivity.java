@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,6 @@ import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
 import com.example.grocery.models.ModelCartItem;
 import com.example.grocery.models.ModelProduct;
-import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.example.grocery.constants;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,25 +49,33 @@ import p32929.androideasysql_library.EasyDB;
 
 public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
-private ImageView shopIv;
+    private ImageView shopIv;
     private TextView  shopNameTv,phoneTv,emailTv,openClosedTv,deliveryFeeTv,addressTv,filteredProductsTv,cartCountTv;
     private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn,reviewsBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
-    private String shopUid;
+    private RatingBar ratingBar;
+
     private FirebaseAuth firebaseAuth;
+
     private ArrayList<ModelProduct>productsList;
     private AdapterProductUser adapterProductUser;
-private ProgressDialog progressDialog;
+
+
+    private String shopUid;
     private String myLatitude,myLongitude,myPhone;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
     public String deliveryFee;
+
+    //progress dialog
+    private ProgressDialog progressDialog;
 
     //cart
     public ArrayList<ModelCartItem> cartItemList;
     private AdapterCartItem adapterCartItem;
 
    private EasyDB easyDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -428,31 +439,71 @@ final String timeStamp=""+System.currentTimeMillis();
     }
     private void loadShopProducts() {
         //init list
-productsList=new ArrayList<>();
-DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
-reference.child(shopUid).child("Products")
-        .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //clear lists nefore adding items
-                productsList.clear();
-                for(DataSnapshot ds:dataSnapshot.getChildren()){
-                    ModelProduct modelProduct=ds.getValue(ModelProduct.class);
-                    productsList.add(modelProduct);
+        productsList=new ArrayList<>();
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(shopUid).child("Products")
+            .addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    //clear lists nefore adding items
+                    productsList.clear();
+                    for(DataSnapshot ds:dataSnapshot.getChildren()){
+                        ModelProduct modelProduct=ds.getValue(ModelProduct.class);
+                        productsList.add(modelProduct);
+                    }
+                    //setup adapter
+                    adapterProductUser =new AdapterProductUser(ShopDetailsActivity.this,productsList);
+                    //set adapter
+                    productsRv.setAdapter(adapterProductUser);
                 }
-                //setup adapter
-                adapterProductUser =new AdapterProductUser(ShopDetailsActivity.this,productsList);
-                //set adapter
-                productsRv.setAdapter(adapterProductUser);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
 
+    }
+
+    private void prepareNotificationMessage(String orderId){
+        //when user places order, send notification to seller
+
+        //prepare data for notification
+        String NOTIFICATION_TOPIC = "/topics/" + constants.FCM_TOPIC; //must be same as subscribed by user
+        String NOTIFICATION_TITLE = "New Order" + orderId;
+        String NOTIFICATION_MESSAGE = "Congratulations! You have new order.";
+        String NOTIFICATION_TYPE = "NewOrder";
+
+        //prepare jason (what to send and where to send)
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+        try {
+            //what to send
+            notificationBodyJo.put("notificationType",NOTIFICATION_TYPE);
+            notificationBodyJo.put("buyerUid",firebaseAuth.getUid()); // since we are logged in as buyer to place order so current user uid
+            notificationBodyJo.put("sellerUid",shopUid);
+            notificationBodyJo.put("orderId",orderId);
+            notificationBodyJo.put("notificationTitle",NOTIFICATION_TITLE);
+            notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
+            //where to send
+            notificationBodyJo.put("to", NOTIFICATION_TOPIC); // to all who subscribed to this topic
+            notificationBodyJo.put("data", notificationBodyJo);
+
+        }
+        catch (Exception e){
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+
+        sendFcmNotification(notificationJo,orderId);
+
+
+    }
+
+    private void sendFcmNotification(JSONObject notificationJo, String orderId) {
+        //send volley request
+        JsonObjectRequest
     }
 
 
