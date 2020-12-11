@@ -43,7 +43,7 @@ import java.util.HashMap;
 public class MainSellerActivity extends AppCompatActivity {
     private TextView nameTv,shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv;
     private EditText searchProductEt;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, settingsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private RecyclerView productsRv;
@@ -74,6 +74,8 @@ public class MainSellerActivity extends AppCompatActivity {
         filterProductBtn = findViewById(R.id.filterProductBtn);
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
+        settingsBtn = findViewById(R.id.settingsBtn);
+
 
 
         progressDialog=new ProgressDialog(this);
@@ -208,6 +210,17 @@ public class MainSellerActivity extends AppCompatActivity {
 
                     }
                 });
+
+        //start settings screen
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainSellerActivity.this,SettingsActivity.class));
+
+            }
+        });
+
+
 
     }
 

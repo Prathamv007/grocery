@@ -6,3 +6,4 @@ pratham {[adapterorderuser.java,modelorderuser.java,row_order_user.xml,shopdetai
 suraj { [vdo 6 complete , AdapterProductSeller, filterProduct, filterProduct] modifications:constants, MainSellerActivity], activity_main_seller.xml}
 pratham{[OrderDetailsUsersActivity.java,AdapterOrderedItem.java,ModelOrderedItem.java,activity_order_details_users.xml,row_ordereditem.xml]-13 User - Place & Order Details}
 suraj {[ activity_edit_product.xml,editProductactivity.java]} vdo 7 - seller -Edit Delete Products
+suraj {[ settingsActivity.java, settingsActivity.xml]} vdo 18 -notifications-settings screens
