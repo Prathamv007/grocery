@@ -50,8 +50,8 @@
             android:layout_height="70dp"
             android:layout_marginEnd="10dp"
             android:id="@+id/profileIv"
+            app:civ_border="true"
             app:civ_border_color="@color/colorWhite"
-            app:civ_border_width="2dp"
             android:src="@drawable/ic_store_gray"/>
 
         <TextView
@@ -121,6 +121,7 @@
 
     <!--Products-->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/productsRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -184,7 +185,40 @@
         android:id="@+id/ordersRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarRl"/>
+        android:layout_below="@+id/toolbarRl">
+        <!--Search/Filter-->
+        <TextView
+            android:id="@+id/filteredOrdersTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toStartOf="@+id/filterOrderBtn"
+            android:background="@drawable/shapre_rect02"
+            android:padding="10dp"
+            android:text="Showing All Orders"/>
+        <!--Filter Orders-->
+        <ImageButton
+            android:id="@+id/filterOrderBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_filter_gray"/>
+        <!--show Orders-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ordersRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/filteredOrdersTv"
+            tools:listitem="@layout/row_order_seller"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

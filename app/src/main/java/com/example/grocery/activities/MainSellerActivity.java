@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,8 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grocery.R;
+import com.example.grocery.adapters.AdapterOrderShop;
 import com.example.grocery.adapters.AdapterProductSeller;
 import com.example.grocery.constants;
+import com.example.grocery.models.ModelOrderShop;
 import com.example.grocery.models.ModelProduct;
 
 
@@ -41,18 +44,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainSellerActivity extends AppCompatActivity {
-    private TextView nameTv,shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv;
+    private TextView nameTv,shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,filteredOrdersTv;
     private EditText searchProductEt;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn,filterOrderBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
-    private RecyclerView productsRv;
+    private RecyclerView productsRv,ordersRv;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
     private ArrayList<ModelProduct> productList;
     private AdapterProductSeller adapterProductSeller;
+
+    private ArrayList<ModelOrderShop> orderShopArrayList;
+    private AdapterOrderShop adapterOrderShop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,9 @@ public class MainSellerActivity extends AppCompatActivity {
         filterProductBtn = findViewById(R.id.filterProductBtn);
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
+        filteredOrdersTv=findViewById(R.id.filteredOrdersTv);
+        filterOrderBtn=findViewById(R.id.filterOrderBtn);
+        ordersRv=findViewById(R.id.ordersRv);
 
 
         progressDialog=new ProgressDialog(this);
@@ -82,6 +91,7 @@ public class MainSellerActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         checkUser();
         loadAllProducts();
+        loadAllOrders();
 
         showProductsUI();
 
@@ -112,7 +122,7 @@ public class MainSellerActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMeoffline();
+                makeMeOffline();
 
             }
         });
@@ -153,7 +163,7 @@ public class MainSellerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainSellerActivity.this);
-                builder.setTitle("Choose Category:")
+                builder.setTitle("Filter products:")
                         .setItems(constants.productCategories1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
@@ -176,7 +186,66 @@ public class MainSellerActivity extends AppCompatActivity {
             }
         });
 
+        filterOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //options to display in dialog box
+                final String[] options = {"All","In Progress","Completed","Cancelled"};
+                //dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainSellerActivity.this);
+                builder.setTitle("Filter Orders:")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                //handle item clicks
+                                if (which==0){
+                                    //All clicked
+                                    filteredOrdersTv.setText("Showing All Orders");
+                                    adapterOrderShop.getFilter().filter(""); //show all orders
+                                }
+                                else {
+                                    String optionClicked = options[which];
+                                    filteredOrdersTv.setText("Showing "+optionClicked+"Orders"); //showing completed orders
+                                    adapterOrderShop.getFilter().filter(optionClicked);
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
+
     }
+
+    private void loadAllOrders() {
+        //init array list
+        orderShopArrayList = new ArrayList<>();
+
+        //load orders of shop
+        DatabaseReference ref =FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Orders")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //clear list before adding new data in it
+                        orderShopArrayList.clear();
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            ModelOrderShop modelOrderShop = ds.getValue(ModelOrderShop.class);
+                            //add to list
+                            orderShopArrayList.add(modelOrderShop);
+                        }
+                        //setup adapter
+                        adapterOrderShop = new AdapterOrderShop(MainSellerActivity.this,orderShopArrayList);
+                        //set adapter to recyclerview
+                        ordersRv.setAdapter(adapterOrderShop);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
 
     private void loadFilteredProducts(final String selected) {
         productList = new ArrayList<>();
@@ -261,7 +330,7 @@ public class MainSellerActivity extends AppCompatActivity {
         tabProductsTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 
-    private void makeMeoffline() {
+    private void makeMeOffline() {
         //after login make user online
         progressDialog.setMessage("logging out user...");
 
@@ -295,11 +364,11 @@ public class MainSellerActivity extends AppCompatActivity {
             finish();
         }
         else{
-            loadMyinfo();
+            loadMyInfo();
         }
     }
 
-    private void loadMyinfo() {
+    private void loadMyInfo() {
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
         ref.orderByChild("uid").equalTo(firebaseAuth.getUid())
                 .addValueEventListener(new ValueEventListener() {

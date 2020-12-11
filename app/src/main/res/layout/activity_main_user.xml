@@ -27,28 +27,34 @@
             android:id="@+id/editProfileBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
             android:layout_toStartOf="@+id/logoutBtn"
             android:background="@null"
             android:src="@drawable/ic_edit_white" />
 
+        <!--Settings Button-->
+        <ImageButton
+            android:id="@+id/settingsBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:layout_toStartOf="@+id/editProfileBtn"
+            android:paddingRight="15dp"
+            android:src="@drawable/ic_settings_white"/>
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileIv"
-            android:layout_width="100dp"
-
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_store_grey"
-
-            app:civ_border_color="@color/colorAccent"
-            app:civ_border_width="1dp" />
+            app:civ_border_color="@color/colorAccent"/>
         <TextView
             android:id="@+id/nameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/profileIv"
             android:text="Name"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -58,9 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/nameTv"
             android:layout_toEndOf="@id/profileIv"
-
             android:text="email"
-            android:textColor="#000000" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/phoneTv"
@@ -68,9 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/emailTv"
             android:layout_toEndOf="@id/profileIv"
-
             android:text="phone"
-            android:textColor="#000000" />
+            android:textColor="#ffffff" />
 
         <LinearLayout
             android:layout_width="match_parent"

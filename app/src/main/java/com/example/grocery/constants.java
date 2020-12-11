@@ -5,6 +5,10 @@ package com.example.grocery;
  */
 public class constants {
 
+    public static final String FCM_KEY = "";
+    public static final String FCM_TOPIC = "Push Notification";
+
+
     //products categories
 
     public static final String[] productCategories = {
