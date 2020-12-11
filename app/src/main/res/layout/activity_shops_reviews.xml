@@ -74,6 +74,7 @@ app:civ_border_color="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:id="@+id/reviewsRv"/>
+        android:id="@+id/reviewsRv"
+        tools:listitem="@layout/row_review"/>
 
     </LinearLayout>

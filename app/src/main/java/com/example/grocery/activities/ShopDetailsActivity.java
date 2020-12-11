@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.adapters.AdapterReview;
 import com.example.grocery.models.ModelCartItem;
 import com.example.grocery.models.ModelProduct;
+import com.example.grocery.models.ModelReview;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,10 +55,15 @@ private ImageView shopIv;
     private EditText searchProductEt;
     private RecyclerView productsRv;
     private String shopUid;
+
     private FirebaseAuth firebaseAuth;
+    private RatingBar ratingBar;
+
+
     private ArrayList<ModelProduct>productsList;
     private AdapterProductUser adapterProductUser;
-private ProgressDialog progressDialog;
+
+    private ProgressDialog progressDialog;
     private String myLatitude,myLongitude,myPhone;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
     public String deliveryFee;
@@ -88,6 +96,7 @@ private ProgressDialog progressDialog;
         productsRv =findViewById(R.id.productsRv);
         cartCountTv =findViewById(R.id.cartCountTv);
         reviewsBtn=findViewById(R.id.reviewsBtn);
+        ratingBar=findViewById(R.id.ratingBar);
         //init progress dialog
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("PLEASE WAIT");
@@ -100,6 +109,7 @@ private ProgressDialog progressDialog;
          loadMyInfo();
          loadShopDetails();
          loadShopProducts();
+         loadReviews();
 //declare it to class level and init it oncreate
          easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
@@ -201,6 +211,41 @@ private ProgressDialog progressDialog;
                 startActivity(intent);
             }
         });
+    }
+
+    private float ratingSum =0;
+
+
+
+    private void loadReviews() {
+
+
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //clear list before adding data into it
+
+                        ratingSum=0;
+                        for(DataSnapshot ds: dataSnapshot.getChildren()){
+                            float rating=Float.parseFloat(""+ds.child("ratings").getValue());
+                            ratingSum =ratingSum +rating;
+
+                        }
+
+
+                        long numberOfReviews=dataSnapshot.getChildrenCount();
+                        float avgRating =ratingSum/numberOfReviews;
+                        ratingBar.setRating(avgRating);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
     private void deleteCartData() {
