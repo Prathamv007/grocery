@@ -320,6 +320,8 @@ final String timeStamp=""+System.currentTimeMillis();
         hashMap.put("orderBy",""+firebaseAuth.getUid());
         hashMap.put("orderTo",""+shopUid);
         hashMap.put("orderCost",""+cost);
+        hashMap.put("latitude",""+myLatitude);
+        hashMap.put("longitude",""+myLongitude);
 
         //add to db
         final DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users").child(shopUid).child("Orders");
