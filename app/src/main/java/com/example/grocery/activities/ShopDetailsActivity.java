@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.adapters.AdapterReview;
 import com.example.grocery.models.ModelCartItem;
 import com.example.grocery.models.ModelProduct;
+import com.example.grocery.models.ModelReview;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +41,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.example.grocery.constants;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -49,14 +51,19 @@ public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
 private ImageView shopIv;
     private TextView  shopNameTv,phoneTv,emailTv,openClosedTv,deliveryFeeTv,addressTv,filteredProductsTv,cartCountTv;
-    private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn;
+    private ImageButton callBtn,mapBtn,cartBtn,backBtn,filterProductBtn,reviewsBtn;
     private EditText searchProductEt;
     private RecyclerView productsRv;
     private String shopUid;
+
     private FirebaseAuth firebaseAuth;
+    private RatingBar ratingBar;
+
+
     private ArrayList<ModelProduct>productsList;
     private AdapterProductUser adapterProductUser;
-private ProgressDialog progressDialog;
+
+    private ProgressDialog progressDialog;
     private String myLatitude,myLongitude,myPhone;
     private String shopName,shopEmail,shopPhone,shopAddress,shopLatitude,shopLongitude;
     public String deliveryFee;
@@ -88,6 +95,8 @@ private ProgressDialog progressDialog;
         callBtn=findViewById(R.id.callBtn);
         productsRv =findViewById(R.id.productsRv);
         cartCountTv =findViewById(R.id.cartCountTv);
+        reviewsBtn=findViewById(R.id.reviewsBtn);
+        ratingBar=findViewById(R.id.ratingBar);
         //init progress dialog
         progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("PLEASE WAIT");
@@ -100,6 +109,7 @@ private ProgressDialog progressDialog;
          loadMyInfo();
          loadShopDetails();
          loadShopProducts();
+         loadReviews();
 //declare it to class level and init it oncreate
          easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
@@ -190,6 +200,52 @@ private ProgressDialog progressDialog;
                         }).show();
             }
         });
+
+        //handle reviewbtn click,open review activity
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pass shop uid to show its reviews
+                Intent intent=new Intent(ShopDetailsActivity.this,ShopsReviewsActivity.class);
+                intent.putExtra("shopUid",shopUid);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private float ratingSum =0;
+
+
+
+    private void loadReviews() {
+
+
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //clear list before adding data into it
+
+                        ratingSum=0;
+                        for(DataSnapshot ds: dataSnapshot.getChildren()){
+                            float rating=Float.parseFloat(""+ds.child("ratings").getValue());
+                            ratingSum =ratingSum +rating;
+
+                        }
+
+
+                        long numberOfReviews=dataSnapshot.getChildrenCount();
+                        float avgRating =ratingSum/numberOfReviews;
+                        ratingBar.setRating(avgRating);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
     }
 
     private void deleteCartData() {
@@ -311,15 +367,19 @@ progressDialog.setTitle("placing order...");
 progressDialog.show();
 //for order id and order time
 final String timeStamp=""+System.currentTimeMillis();
+
     String cost=allTotalPriceTv.getText().toString().trim().replace("$","");
+
+    //add latitude,longitude of user to each order|delete previous orders from  firebase or add manually to them
+
     //setup order data
     HashMap<String,String>hashMap=new HashMap<>();
         hashMap.put("orderId",""+timeStamp);
         hashMap.put("orderTime",""+timeStamp);
         hashMap.put("orderStatus",""+"In Progress");//in progess completed/camcelled
+        hashMap.put("orderCost",""+cost);
         hashMap.put("orderBy",""+firebaseAuth.getUid());
         hashMap.put("orderTo",""+shopUid);
-        hashMap.put("orderCost",""+cost);
         hashMap.put("latitude",""+myLatitude);
         hashMap.put("longitude",""+myLongitude);
 
@@ -351,7 +411,12 @@ final String timeStamp=""+System.currentTimeMillis();
                         progressDialog.dismiss();
                         Toast.makeText(ShopDetailsActivity.this,"Order Placed Successfully",Toast.LENGTH_SHORT).show();
 
-
+//after placing order open order details page
+                        //open order details,we need to keep tehre orderid,orderto
+                        Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
+                        intent.putExtra("orderTo",shopUid);
+                        intent.putExtra("orderId",timeStamp);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

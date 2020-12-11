@@ -13,8 +13,61 @@
         >
 
         <LinearLayout
+            android:id="@+id/profileLl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:id="@+id/profileIv"
+    android:layout_marginEnd="5dp"
+    android:src="@drawable/ic_person_grey"
+    app:civ_border_width="1dp"
+    app:civ_border_color="@color/colorPrimary"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nameTv"
+                android:text="Name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                />
+            
+        </LinearLayout>
+        
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:numStars="5"
+            android:layout_below="@id/profileLl"
+            android:layout_marginEnd="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTv"
+            android:layout_below="@id/profileLl"
+            android:layout_toEndOf="@id/ratingBar"
+            android:text="dd/MM/yyyy"
+        android:textColor="#AE78AA76"
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reviewTv"
+            android:layout_below="@id/dateTv"
+            android:text="review of the user"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorBlack"
+            />
+
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
