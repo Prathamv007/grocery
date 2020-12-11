@@ -46,7 +46,7 @@ import java.util.HashMap;
 public class MainSellerActivity extends AppCompatActivity {
     private TextView nameTv,shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,filteredOrdersTv;
     private EditText searchProductEt;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn,filterOrderBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn,filterOrderBtn,reviewsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private RecyclerView productsRv,ordersRv;
@@ -83,6 +83,7 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredOrdersTv=findViewById(R.id.filteredOrdersTv);
         filterOrderBtn=findViewById(R.id.filterOrderBtn);
         ordersRv=findViewById(R.id.ordersRv);
+        reviewsBtn=findViewById(R.id.reviewsBtn);
 
 
         progressDialog=new ProgressDialog(this);
@@ -211,6 +212,16 @@ public class MainSellerActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+            }
+        });
+
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //open same reviews activity as used in user main page
+                Intent intent=new Intent(MainSellerActivity.this,ShopsReviewsActivity.class);
+                intent.putExtra("shopUod",""+firebaseAuth.getUid());
+                startActivity(intent);
             }
         });
 
