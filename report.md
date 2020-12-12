@@ -8,3 +8,4 @@ pratham{[OrderDetailsUsersActivity.java,AdapterOrderedItem.java,ModelOrderedItem
 suraj {[ activity_edit_product.xml,editProductactivity.java]} vdo 7 - seller -Edit Delete Products
 suraj {[ settingsActivity.java, settingsActivity.xml]} vdo 18 -notifications-settings screens
 pratham{[ShopDetailsActivity.java,ShopsReviewsActivity.java,AdapterReview.java,AdapterShop.java,ModelReview.java,row_review.xml]-15 user-show shop reviews}
+aritra{[AdapterOrderShop.java,activity_order_details_seller.xml,OrderDetailsSellerActivity.java] - 17 seller order details}
