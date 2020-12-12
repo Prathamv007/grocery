@@ -50,7 +50,7 @@
             android:layout_height="70dp"
             android:layout_marginEnd="10dp"
             android:id="@+id/profileIv"
-            app:civ_border="true"
+
             app:civ_border_color="@color/colorWhite"
             android:src="@drawable/ic_store_gray"/>
 
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_toStartOf="@+id/filterOrderBtn"
-            android:background="@drawable/shapre_rect02"
+            android:background="@drawable/shape_rect02"
             android:padding="10dp"
             android:text="Showing All Orders"/>
         <!--Filter Orders-->

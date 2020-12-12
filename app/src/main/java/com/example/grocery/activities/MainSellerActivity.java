@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterOrderShop;
 import com.example.grocery.adapters.AdapterProductSeller;
-import com.example.grocery.constants;
+import com.example.grocery.Constants;
 import com.example.grocery.models.ModelOrderShop;
 import com.example.grocery.models.ModelProduct;
 
@@ -164,11 +163,11 @@ public class MainSellerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainSellerActivity.this);
                 builder.setTitle("Filter products:")
-                        .setItems(constants.productCategories1, new DialogInterface.OnClickListener() {
+                        .setItems(Constants.productCategories1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 //get selected item
-                                String selected = constants.productCategories1[which];
+                                String selected = Constants.productCategories1[which];
                                 filteredProductsTv.setText(selected);
                                 if (selected.equals("All")){
                                     //load all
@@ -289,8 +288,9 @@ public class MainSellerActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //before getting reset list
+                        productList.clear();
                         for (DataSnapshot ds: dataSnapshot.getChildren()){
-                            ModelProduct modelProduct = ds.getValue(ModelProduct.class);
+                             ModelProduct modelProduct = ds.getValue(ModelProduct.class);
                             productList.add(modelProduct);
                         }
                         //setup adapter

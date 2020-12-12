@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grocery.R;
-import com.example.grocery.constants;
+import com.example.grocery.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -396,10 +396,10 @@ public class EditProductActivity extends AppCompatActivity {
         //dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Product category")
-                .setItems(constants.productCategories, new DialogInterface.OnClickListener() {
+                .setItems(Constants.productCategories, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String category = constants.productCategories[which];
+                        String category = Constants.productCategories[which];
 
                         //set picked category
                         categoryTv.setText(category);

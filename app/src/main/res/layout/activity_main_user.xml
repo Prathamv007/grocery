@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_rect01"
         android:padding="10dp">
 
@@ -47,7 +47,8 @@
             android:layout_height="70dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_store_grey"
-            app:civ_border_color="@color/colorAccent"/>
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/colorWhite"/>
         <TextView
             android:id="@+id/nameTv"
             android:layout_width="wrap_content"
@@ -81,7 +82,7 @@
             android:layout_height="40dp"
             android:layout_below="@id/profileIv"
             android:layout_marginTop="5dp"
-            android:background="@drawable/shape_rect01"
+            android:background="@drawable/shape_rect03"
             android:orientation="horizontal">
 
             <!--       prodfucts-->
@@ -91,11 +92,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/shape_rect01"
+                android:background="@drawable/shape_rect04"
                 android:gravity="center"
+
                 android:text="shops"
 
-                android:textColor="#000000" />
+                android:textColor="@color/colorBlack" />
 
             <TextView
                 android:id="@+id/tabsOrdersTv"
@@ -110,7 +112,7 @@
 
     </RelativeLayout>
 <RelativeLayout
-    android:visibility="gone"
+
     android:id="@+id/shopsRl"
     android:layout_below="@id/toolbarRl"
     android:layout_width="match_parent"
@@ -120,8 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_shop">
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/row_shop"/>
 
 </RelativeLayout>
     <RelativeLayout
@@ -130,15 +131,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="match_parent">
-<!--recycler view show orders,newwst first-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ordersRv"
-            android:layout_width="wrap_content"
-            app:stackFromEnd="true"
-            app:reverseLayout="true"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-tools:listitem="@layout/row_order_user"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

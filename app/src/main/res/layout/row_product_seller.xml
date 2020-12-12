@@ -27,7 +27,7 @@
             android:layout_toEndOf="@id/productIconIv">
 
             <TextView
-                android:id="@+id/discountNoteTv"
+                android:id="@+id/discountedNoteTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rect05"

@@ -117,9 +117,9 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
 
 
         //init views of bottomsheet
-        ImageButton backBtn = view.findViewById(R.id.backBtn);
-        ImageButton deleteBtn = view.findViewById(R.id.deleteBtn);
-        ImageButton editBtn = view.findViewById(R.id.editBtn);
+        ImageView backBtn = view.findViewById(R.id.backBtn);
+        ImageView deleteBtn = view.findViewById(R.id.deleteBtn);
+        ImageView editBtn = view.findViewById(R.id.editBtn);
         ImageView productIconIv = view.findViewById(R.id.productIconIv);
         TextView discountNoteTv = view.findViewById(R.id.discountNoteTv);
         TextView titleTv = view.findViewById(R.id.titleTv);

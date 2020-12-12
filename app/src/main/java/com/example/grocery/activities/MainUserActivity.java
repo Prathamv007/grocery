@@ -282,11 +282,11 @@ public class MainUserActivity extends AppCompatActivity {
                             ModelShop modelShop=ds.getValue(ModelShop.class);
                             String shopCity=""+ds.child("city").getValue();
                             //SHOW ONLY USER CITY STORE
-                            if(shopCity.equals(myCity)){
-                                shopsList.add(modelShop);
-                                //if we want to display all shops ,skip the if part and
-                                //this shopsList.add(modelShop);
-                            }
+//                            if(shopCity.equals(myCity)){
+//                                shopsList.add(modelShop);
+//                                //if we want to display all shops ,skip the if part and
+//                                //this shopsList.add(modelShop);
+//                            }
                             //set up adapter
                             adapterShop=new AdapterShop(MainUserActivity.this,shopsList);
                             //set adapter to recycler view

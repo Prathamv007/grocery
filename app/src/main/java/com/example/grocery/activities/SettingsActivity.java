@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.grocery.R;
-import com.example.grocery.constants;
+import com.example.grocery.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void subscribeToTopic(){
-        FirebaseMessaging.getInstance().subscribeToTopic(constants.FCM_TOPIC)
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.FCM_TOPIC)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -119,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void unSubscribeToTopic(){
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(constants.FCM_TOPIC)
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.FCM_TOPIC)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
