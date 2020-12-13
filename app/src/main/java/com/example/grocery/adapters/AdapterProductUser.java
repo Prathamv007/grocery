@@ -29,6 +29,8 @@ import java.util.HashMap;
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
 
+
+
 public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements Filterable {
     private Context context;
     public ArrayList<ModelProduct>productsList,filterList;
@@ -38,6 +40,25 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         this.context = context;
         this.productsList = productsList;
         this.filterList = filterList;
+    }
+    class HolderProductUser extends RecyclerView.ViewHolder{
+
+        //uid views
+        private ImageView productIconIv;
+        private TextView discountedNoteTv,titleTv,descriptionTv,addToCartTv,discountedPriceTv,originalPriceTv;
+
+        public HolderProductUser(@NonNull View itemView) {
+            super(itemView);
+
+            //init ui views
+            productIconIv=itemView.findViewById(R.id.productIconIv);
+            discountedNoteTv=itemView.findViewById(R.id.discountedNoteTv);
+            titleTv=itemView.findViewById(R.id.titleTv);
+            descriptionTv=itemView.findViewById(R.id.descriptionTv);
+            addToCartTv=itemView.findViewById(R.id.addToCartTv);
+            discountedPriceTv=itemView.findViewById(R.id.discountedPriceTv);
+            originalPriceTv=itemView.findViewById(R.id.originalPriceTv);
+        }
     }
 
     @NonNull
@@ -88,10 +109,10 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         }
         try {
-            Picasso.get().load(productIcon).placeholder(R.drawable.ic_cart_gray).into(holder.productIconIv);
+            Picasso.get().load(productIcon).placeholder(R.drawable.ic_add_shopping_primary).into(holder.productIconIv);
         }
         catch (Exception e){
-        holder.productIconIv.setImageResource(R.drawable.ic_cart_gray);
+        holder.productIconIv.setImageResource(R.drawable.ic_add_shopping_primary);
 
         }
         holder.addToCartTv.setOnClickListener(new View.OnClickListener() {
@@ -110,35 +131,35 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         });
     }
 
-    private Double cost =0.0;
-    private Double finalCost=0.0;
+    private double cost =0;
+    private double finalCost=0;
     private int quantity=0;
     private void showQuantityDialog(ModelProduct modelProduct) {
         //inflate layout for dialog
         View view= LayoutInflater.from(context).inflate(R.layout.dialog_quantity,null);
         //init layout views
         ImageView productIv= view.findViewById(R.id.productIv);
-        final TextView titleTv= view.findViewById(R.id.titleTv);
+           final TextView titleTv=view.findViewById(R.id.titleTv);
         TextView pQuantityTv= view.findViewById(R.id.pQuantityTv);
         TextView descriptionTv= view.findViewById(R.id.descriptionTv);
         TextView discountedNoteTv= view.findViewById(R.id.discountedNoteTv);
-        final TextView originalPriceTv= view.findViewById(R.id.originalPriceTv);
+      final TextView originalPriceTv= view.findViewById(R.id.originalPriceTv);
         TextView priceDiscountedTv= view.findViewById(R.id.priceDiscountedTv);
-        final TextView finalPriceTv= view.findViewById(R.id.finalPriceTv);
+          final TextView finalPriceTv= view.findViewById(R.id.finalPriceTv);
         ImageButton decrementBtn= view.findViewById(R.id.decrementBtn);
-        final TextView quantityTv= view.findViewById(R.id.quantityTv);
+          final TextView quantityTv= view.findViewById(R.id.quantityTv);
         ImageButton incrementBtn= view.findViewById(R.id.incrementBtn);
         Button continueBtn= view.findViewById(R.id.continueBtn);
 
         //get data from model
-        final String productId = modelProduct.getProductId();
-        String title = modelProduct.getProductTitle();
+       final String productId = modelProduct.getProductId();
+        final String title = modelProduct.getProductTitle();
         String productQuantity = modelProduct.getProductQuantity();
         String description = modelProduct.getProductDescription();
         String discountNote = modelProduct.getDiscountNote();
         String image = modelProduct.getProductIcon();
 
-        final String price;
+         final String price;
         if (modelProduct.getDiscountAvailable().equals("true")){
             //product have discount
             price= modelProduct.getDiscountPrice();
@@ -152,7 +173,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
             price= modelProduct.getOriginalPrice();
         }
 
-        cost= Double.parseDouble(price.replaceAll("$",""));
+       cost= Double.parseDouble(price.replaceAll("$",""));
         finalCost = Double.parseDouble(price.replaceAll("$",""));
         quantity= 1;
 
@@ -187,7 +208,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 quantity++;
 
                 finalPriceTv.setText("$"+finalCost);
-                quantityTv.setText(""+quantity);
+             quantityTv.setText(""+quantity);
             }
         });
         //decrement quantity of product, only if quantity is >1
@@ -199,15 +220,15 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                     quantity--;
 
                     finalPriceTv.setText("$"+finalCost);
-                    quantityTv.setText(""+quantity);
+                   quantityTv.setText(""+quantity);
                 }
             }
         });
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title= titleTv.getText().toString().trim();
-                String priceEach = price;
+            String title=titleTv.getText().toString().trim();
+                String priceEach =originalPriceTv.getText().toString().trim().replace("$","");
                 String totalPrice = finalPriceTv.getText().toString().trim().replace("$","");
                 String quantity = quantityTv.getText().toString().trim();
 
@@ -263,24 +284,6 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     }
 
 
-    class HolderProductUser extends RecyclerView.ViewHolder{
 
-        //uid views
-        private ImageView productIconIv;
-        private TextView discountedNoteTv,titleTv,descriptionTv,addToCartTv,discountedPriceTv,originalPriceTv;
-
-        public HolderProductUser(@NonNull View itemView) {
-            super(itemView);
-
-            //init ui views
-            productIconIv=itemView.findViewById(R.id.productIconIv);
-            discountedNoteTv=itemView.findViewById(R.id.discountedNoteTv);
-            titleTv=itemView.findViewById(R.id.titleTv);
-            descriptionTv=itemView.findViewById(R.id.descriptionTv);
-            addToCartTv=itemView.findViewById(R.id.addToCartTv);
-            discountedPriceTv=itemView.findViewById(R.id.discountedPriceTv);
-            originalPriceTv=itemView.findViewById(R.id.originalPriceTv);
-        }
-    }
 
 }

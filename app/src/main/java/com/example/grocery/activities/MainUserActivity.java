@@ -120,9 +120,9 @@ public class MainUserActivity extends AppCompatActivity {
 
 
     private void showShopsUI() {
-        //show ORDERS ui,hide SHOP ui
-        shopsRl.setVisibility(View.GONE);
-        ordersRl.setVisibility(View.VISIBLE);
+        //show shops ui,hide ordsers
+        shopsRl.setVisibility(View.VISIBLE);
+        ordersRl.setVisibility(View.GONE);
         tabShopsTv.setTextColor(getResources().getColor(R.color.colorBlack));
         tabShopsTv.setBackgroundResource(R.drawable.shape_rect04);
 
@@ -134,9 +134,9 @@ public class MainUserActivity extends AppCompatActivity {
 
 
     private void showOrdersUI() {
-        //show shops ui,hide ordsers ui
-        shopsRl.setVisibility(View.VISIBLE);
-        ordersRl.setVisibility(View.GONE);
+          //show ORDERS ui,hide SHOP ui
+        shopsRl.setVisibility(View.GONE);
+        ordersRl.setVisibility(View.VISIBLE);
         tabShopsTv.setTextColor(getResources().getColor(R.color.colorWhite));
         tabShopsTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
@@ -282,11 +282,11 @@ public class MainUserActivity extends AppCompatActivity {
                             ModelShop modelShop=ds.getValue(ModelShop.class);
                             String shopCity=""+ds.child("city").getValue();
                             //SHOW ONLY USER CITY STORE
-//                            if(shopCity.equals(myCity)){
-//                                shopsList.add(modelShop);
+                            if(shopCity.equals(myCity)){
+                             shopsList.add(modelShop);
 //                                //if we want to display all shops ,skip the if part and
 //                                //this shopsList.add(modelShop);
-//                            }
+                           }
                             //set up adapter
                             adapterShop=new AdapterShop(MainUserActivity.this,shopsList);
                             //set adapter to recycler view
