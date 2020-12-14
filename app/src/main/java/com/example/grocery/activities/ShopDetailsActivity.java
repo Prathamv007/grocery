@@ -23,16 +23,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
+import com.example.grocery.adapters.AdapterReview;
 import com.example.grocery.models.ModelCartItem;
 import com.example.grocery.models.ModelProduct;
+import com.example.grocery.models.ModelReview;
+//import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,12 +42,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.example.grocery.Constants;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
@@ -193,7 +189,7 @@ private ImageView shopIv;
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //get selected item
-                                String selected= Constants.productCategories1[which];
+                                String selected=Constants.productCategories1[which];
                                 filteredProductsTv.setText(selected);
                                 if(selected.equals("All")){
                                     //load all
@@ -370,7 +366,7 @@ sTotalTv=view.findViewById(R.id.sTotalTv);
 
     private void submitOrder() {
 //show progress dialog
-progressDialog.setTitle("Placing order...");
+progressDialog.setTitle("placing order...");
 progressDialog.show();
 //for order id and order time
 final String timeStamp=""+System.currentTimeMillis();
@@ -418,11 +414,12 @@ final String timeStamp=""+System.currentTimeMillis();
                         progressDialog.dismiss();
                         Toast.makeText(ShopDetailsActivity.this,"Order Placed Successfully",Toast.LENGTH_SHORT).show();
 
-
-                        preparedNotificationMessage(timeStamp);
-
-
-
+//after placing order open order details page
+                        //open order details,we need to keep tehre orderid,orderto
+                        Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
+                        intent.putExtra("orderTo",shopUid);
+                        intent.putExtra("orderId",timeStamp);
+                        startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -477,58 +474,12 @@ final String timeStamp=""+System.currentTimeMillis();
                     }
                 });
     }
-
-    private void loadShopDetails() {
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(shopUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //get shop data
-                String name=""+dataSnapshot.child("name").getValue();
-                shopName=""+dataSnapshot.child("shopName").getValue();
-                shopEmail=""+dataSnapshot.child("email").getValue();
-                shopLatitude=""+dataSnapshot.child("Latitude").getValue();
-                shopPhone=""+dataSnapshot.child("phone").getValue();
-                shopAddress=""+dataSnapshot.child("address").getValue();
-                shopLongitude=""+dataSnapshot.child("Longitude").getValue();
-                deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
-                String profileImage=""+dataSnapshot.child("profileImage").getValue();
-                String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
-                //set data
-                shopNameTv.setText(shopName);
-                emailTv.setText(shopEmail);
-                deliveryFeeTv.setText("Delivery Fee: $"+deliveryFee);
-                addressTv.setText(shopAddress);
-                phoneTv.setText(shopPhone);
-                if(shopOpen.equals("true")){
-                    openClosedTv.setText("Open");
-                }
-                else{
-                    openClosedTv.setText("Closed");
-                }
-                try{
-                    Picasso.get().load(profileImage).into(shopIv);
-                }
-                catch (Exception e){
-
-                }
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
     private void loadShopProducts() {
         //init list
-                productsList=new ArrayList<>();
-                DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
-                reference.child(shopUid).child("Products")
-                        .addValueEventListener(new ValueEventListener() {
+productsList=new ArrayList<>();
+DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
+reference.child(shopUid).child("Products")
+        .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //clear lists nefore adding items
@@ -551,66 +502,87 @@ final String timeStamp=""+System.currentTimeMillis();
 
 
     }
-    private void preparedNotificationMessage(String orderId){
+    private void prepareNotificationMessage(String orderId){
+        //when  user places order, send notification to seller
 
-        String NOTIFICATION_TOPIC="/topics/" + Constants.FCM_TOPIC;
-        String NOTIFICATION_TITLE="New Order"+orderId;
-        String NOTIFICATION_MESSAGE="Congratulations..,You have new order";
-        String  NOTIFICATION_TYPE="NewOrder";
+        //prepare data for notification
+        String NOTIFICATION_TOPIC = "/topics/" + Constants.FCM_TOPIC; //must be same as subscribed by user
+        String NOTIFICATION_TITLE = "New Order" + orderId;
+        String NOTIFICATION_MESSAGE = "Congratulations! You have new order";
+        String NOTIFICATION_TYPE = "NewOrder";
 
-        //prepare json
-        JSONObject notificationJo=new JSONObject();
-        JSONObject notificationBodyJo=new JSONObject();
-        try{
-                notificationBodyJo.put("notificationType",NOTIFICATION_TYPE);
-                notificationBodyJo.put("buyerUid",firebaseAuth.getUid());
-                notificationBodyJo.put("sellerUid",shopUid);
-                notificationBodyJo.put("orderId",orderId);
-                notificationBodyJo.put("notificationTitle",NOTIFICATION_TITLE);
-                notificationBodyJo.put("notificationMessage",NOTIFICATION_MESSAGE);
+        //prepare json (what to send and where to send
 
-            notificationJo.put("to",NOTIFICATION_TOPIC);
-            notificationJo.put("data",notificationBodyJo);
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+        try {
+            //what to send
+            notificationBodyJo.put("notificationType",NOTIFICATION_TYPE);
+            notificationBodyJo.put("buyerUid", firebaseAuth.getUid()); // since we are logged in as buyer to place order so current user uid is buyer uid
+            notificationBodyJo.put("SellerUid", shopUid);
+            notificationBodyJo.put("orderId", orderId);
+            notificationBodyJo.put("notificationTitle",NOTIFICATION_TITLE);
+            notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
+
+            //where to send
+            notificationBodyJo.put("to",NOTIFICATION_TOPIC); //to all who subscribed to this topic
+            notificationBodyJo.put("data",notificationBodyJo);
+
         }
-        catch (Exception e){
-            Toast.makeText(this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+        catch(Exception e)
+        {
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
-        sendFcmNotification(notificationJo,orderId);
-    }
 
-    private void sendFcmNotification(JSONObject notificationJo, final String orderId) {
-        //send volley request
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //after placing order open order details page
-                //open order details,we need to keep tehre orderid,orderto
-                Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
-                intent.putExtra("orderTo",shopUid);
-                intent.putExtra("orderId",orderId);
-                startActivity(intent);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
-                intent.putExtra("orderTo",shopUid);
-                intent.putExtra("orderId",orderId);
-                startActivity(intent);
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
 
-                Map<String ,String >headers=new HashMap<>();
-                headers.put("Content-Type","application/json");
-                headers.put("Authorization","key="+Constants.FCM_KEY);
-                return headers;
-            }
-        };
-       Volley.newRequestQueue(this).add(jsonObjectRequest);
+
     }
 
 
+    private void loadShopDetails() {
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //get shop data
+                String name=""+dataSnapshot.child("name").getValue();
+                shopName=""+dataSnapshot.child("shopName").getValue();
+                shopEmail=""+dataSnapshot.child("email").getValue();
+                shopLatitude=""+dataSnapshot.child("Latitude").getValue();
+                shopPhone=""+dataSnapshot.child("phone").getValue();
+                shopAddress=""+dataSnapshot.child("address").getValue();
+                shopLongitude=""+dataSnapshot.child("Longitude").getValue();
+                 deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
+                String profileImage=""+dataSnapshot.child("profileImage").getValue();
+                String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
+                //set data
+                shopNameTv.setText(shopName);
+                emailTv.setText(shopEmail);
+                deliveryFeeTv.setText("Delivery Fee: $"+deliveryFee);
+                addressTv.setText(shopAddress);
+                phoneTv.setText(shopPhone);
+                if(shopOpen.equals("true")){
+                    openClosedTv.setText("Open");
+                }
+                else{
+                    openClosedTv.setText("Closed");
+                }
+                try{
+                    Picasso.get().load(profileImage).into(shopIv);
+                }
+                catch (Exception e){
+
+                }
+
+
+                
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
