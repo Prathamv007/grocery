@@ -31,7 +31,7 @@ import p32929.androideasysql_library.EasyDB;
 
 
 
-public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements Filterable {
+public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.HolderProductUser> implements  Filterable{
     private Context context;
     public ArrayList<ModelProduct>productsList,filterList;
     private FilterProductUser filter;
@@ -39,9 +39,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     public AdapterProductUser(Context context, ArrayList<ModelProduct> productsList) {
         this.context = context;
         this.productsList = productsList;
-        this.filterList = filterList;
+        this.filterList = productsList;
     }
-    class HolderProductUser extends RecyclerView.ViewHolder{
+    static class HolderProductUser extends RecyclerView.ViewHolder{
 
         //uid views
         private ImageView productIconIv;
@@ -73,7 +73,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
     @Override
     public void onBindViewHolder(@NonNull HolderProductUser holder, int position) {
 //get data
-        final ModelProduct modelProduct=productsList.get(position);
+    final ModelProduct modelProduct=productsList.get(position);
         String discountAvailable=modelProduct.getDiscountAvailable();
         String discountNote=modelProduct.getDiscountNote();
         String discountPrice=modelProduct.getDiscountPrice();
@@ -159,7 +159,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         String discountNote = modelProduct.getDiscountNote();
         String image = modelProduct.getProductIcon();
 
-         final String price;
+        String price;
         if (modelProduct.getDiscountAvailable().equals("true")){
             //product have discount
             price= modelProduct.getDiscountPrice();
