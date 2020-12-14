@@ -139,6 +139,7 @@ public class MainSellerActivity extends AppCompatActivity {
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //open settings
                 startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
             }
         });

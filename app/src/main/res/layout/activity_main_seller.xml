@@ -54,6 +54,7 @@
             android:layout_toStartOf="@+id/addProductBtn"/>
 
         <ImageButton
+            android:id="@+id/settingsBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@null"
