@@ -247,7 +247,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         EasyDB easyDB = EasyDB.init(context,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
-                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_PID",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
@@ -255,7 +255,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .doneTableColumn();
 
         Boolean b = easyDB.addData("Item_Id",itemId)
-                .addData("Item_PId",productId)
+                .addData("Item_PID",productId)
                 .addData("Item_Name",title)
                 .addData("Item_Price_Each",priceEach)
                 .addData("Item_Price",price)

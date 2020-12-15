@@ -8,10 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Item Title"
-
         android:textColor="@color/colorBlack"
-
-android:id="@+id/itemTitleTv"/>
+        android:id="@+id/itemTitleTv"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

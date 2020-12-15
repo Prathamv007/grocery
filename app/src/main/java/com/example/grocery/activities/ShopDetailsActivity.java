@@ -117,7 +117,7 @@ private ImageView shopIv;
          easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
-                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_PID",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
@@ -279,9 +279,9 @@ public void cartCount(){
         //inflate cart layout
         View view= LayoutInflater.from(this).inflate(R.layout.dialog_cart,null);
         //init views
-TextView shopNameTv=view.findViewById(R.id.shopNameTv);
-RecyclerView cartItemsRv=view.findViewById(R.id.cartItemsRv);
-sTotalTv=view.findViewById(R.id.sTotalTv);
+        TextView shopNameTv=view.findViewById(R.id.shopNameTv);
+        RecyclerView cartItemsRv=view.findViewById(R.id.cartItemsRv);
+        sTotalTv=view.findViewById(R.id.sTotalTv);
        dFeeTv=view.findViewById(R.id.dFeeTv);
         allTotalPriceTv=view.findViewById(R.id.totalTv);
         Button checkoutBtn=view.findViewById(R.id.checkoutBtn);
@@ -294,7 +294,7 @@ sTotalTv=view.findViewById(R.id.sTotalTv);
         EasyDB easyDB = EasyDB.init(this,"ITEMS_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_Id",new String[]{"text","unique"}))
-                .addColumn(new Column("Item_PId",new String[]{"text","not null"}))
+                .addColumn(new Column("Item_PID",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Name",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price_Each",new String[]{"text","not null"}))
                 .addColumn(new Column("Item_Price",new String[]{"text","not null"}))
@@ -325,7 +325,7 @@ sTotalTv=view.findViewById(R.id.sTotalTv);
         cartItemsRv.setAdapter(adapterCartItem);
         dFeeTv.setText("$"+deliveryFee);
         sTotalTv.setText("$"+String.format("%.2f",allTotalPrice));
-        allTotalPriceTv.setText("$"+(allTotalPrice+Double.parseDouble(deliveryFee.replace("$",""))));
+        allTotalPriceTv.setText("$"+(allTotalPrice + Double.parseDouble(deliveryFee.replace("$",""))));
         //show dialog
         AlertDialog dialog=builder.create();
         dialog.show();
