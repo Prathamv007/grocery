@@ -302,7 +302,7 @@ public void cartCount(){
                 .doneTableColumn();
         //get all records from db
         Cursor res =easyDB.getAllData();
-        while (res.moveToLast()){
+        while (res.moveToNext()){
             String id=res.getString(1);
             String pId=res.getString(2);
             String name=res.getString(3);
