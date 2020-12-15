@@ -1,18 +1,18 @@
 package com.example.grocery.models;
 
 public class ModelShop {
-    private String uid,email,name,shopName,phone,deliveryfee,country,city,state,address,latitude,longitude,timestamp,accountType, online,shopOpen,profileImage;
+    private String uid,email,name,shopName,phone,deliveryFee,country,city,state,address,latitude,longitude,timestamp,accountType, online,shopOpen,profileImage;
 
     public ModelShop() {
     }
 
-    public ModelShop(String uid, String email, String name, String shopName, String phone, String deliveryfee, String country, String city, String state, String address, String latitude, String longitude, String timestamp, String accountType, String online, String shopOpen, String profileImage) {
+    public ModelShop(String uid, String email, String name, String shopName, String phone, String deliveryFee, String country, String city, String state, String address, String latitude, String longitude, String timestamp, String accountType, String online, String shopOpen, String profileImage) {
         this.uid = uid;
         this.email = email;
         this.name = name;
         this.shopName = shopName;
         this.phone = phone;
-        this.deliveryfee = deliveryfee;
+        this.deliveryFee = deliveryFee;
         this.country = country;
         this.city = city;
         this.state = state;
@@ -66,12 +66,12 @@ public class ModelShop {
         this.phone = phone;
     }
 
-    public String getDeliveryfee() {
-        return deliveryfee;
+    public String getDeliveryFee() {
+        return deliveryFee;
     }
 
-    public void setDeliveryfee(String deliveryfee) {
-        this.deliveryfee = deliveryfee;
+    public void setDeliveryFee(String deliveryFee) {
+        this.deliveryFee = deliveryFee;
     }
 
     public String getCountry() {

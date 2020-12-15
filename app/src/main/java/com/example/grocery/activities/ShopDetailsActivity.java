@@ -280,7 +280,7 @@ public void cartCount(){
         View view= LayoutInflater.from(this).inflate(R.layout.dialog_cart,null);
         //init views
 TextView shopNameTv=view.findViewById(R.id.shopNameTv);
-RecyclerView cartItemsIv=view.findViewById(R.id.cartItemsIv);
+RecyclerView cartItemsRv=view.findViewById(R.id.cartItemsRv);
 sTotalTv=view.findViewById(R.id.sTotalTv);
        dFeeTv=view.findViewById(R.id.dFeeTv);
         allTotalPriceTv=view.findViewById(R.id.totalTv);
@@ -310,7 +310,8 @@ sTotalTv=view.findViewById(R.id.sTotalTv);
             String cost=res.getString(5);
             String quantity=res.getString(6);
             allTotalPrice=allTotalPrice+Double.parseDouble(cost);
-            ModelCartItem modelCartItem=new ModelCartItem(""+id,
+            ModelCartItem modelCartItem=new ModelCartItem(
+                    ""+id,
                     ""+pId,
                     ""+name,
                     ""+price,
@@ -321,7 +322,7 @@ sTotalTv=view.findViewById(R.id.sTotalTv);
         //setuip adapter
         adapterCartItem =new AdapterCartItem(this,cartItemList);
         //set to recyclerview
-        cartItemsIv.setAdapter(adapterCartItem);
+        cartItemsRv.setAdapter(adapterCartItem);
         dFeeTv.setText("$"+deliveryFee);
         sTotalTv.setText("$"+String.format("%.2f",allTotalPrice));
         allTotalPriceTv.setText("$"+(allTotalPrice+Double.parseDouble(deliveryFee.replace("$",""))));

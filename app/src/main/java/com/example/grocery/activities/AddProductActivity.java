@@ -80,8 +80,8 @@ public class AddProductActivity extends AppCompatActivity {
         quantityEt =findViewById(R.id.quantityEt);
         priceEt = findViewById(R.id.priceEt);
         discountSwitch = findViewById(R.id.discountSwitch);
-        discountedPriceEt = findViewById(R.id.discountPriceEt);
-        discountedNoteEt = findViewById(R.id.discountNoteEt);
+        discountedPriceEt = findViewById(R.id.discountedPriceEt);
+        discountedNoteEt = findViewById(R.id.discountedNoteEt);
         addProductBtn = findViewById(R.id.addProductBtn);
 
         //on start is unchecked, so hide discountPriceEt, discountNoteEt
@@ -158,14 +158,14 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    private String productTitle,productDescription, productCategory,ProductQuantity, originalPrice, discountPrice,discountNote;
+    private String productTitle,productDescription, productCategory,productQuantity, originalPrice, discountPrice,discountNote;
     private boolean discountAvailable = false;
     private void inputData() {
         //1. Input data
         productTitle = titleEt.getText().toString().trim();
         productDescription = descriptionEt.getText().toString().trim();
         productCategory = categoryTv.getText().toString().trim();
-        ProductQuantity = quantityEt.getText().toString().trim();
+        productQuantity = quantityEt.getText().toString().trim();
         originalPrice = priceEt.getText().toString().trim();
         discountAvailable = discountSwitch.isChecked();
 
@@ -191,16 +191,16 @@ public class AddProductActivity extends AppCompatActivity {
         if(discountAvailable){
             //price is with discount
 
-            discountPrice = discountedPriceEt.getText().toString().trim();
+           discountPrice = discountedPriceEt.getText().toString().trim();
             discountNote = discountedNoteEt.getText().toString().trim();
             if(TextUtils.isEmpty(discountPrice)) {
                 Toast.makeText(this, "Discount Price is required", Toast.LENGTH_SHORT).show();
                 return; //dnt proceed further
-            }
+            }}
             else {
                 //price is without discount
                 discountPrice = "0";
-                discountPrice = "";
+                discountNote = "";
             }
             
             addProduct();
@@ -209,7 +209,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 
-    }
+
 
     private void addProduct() {
         //add product to db
@@ -224,7 +224,7 @@ public class AddProductActivity extends AppCompatActivity {
             hashMap.put("productTitle", ""+productTitle);
             hashMap.put("productDescription", ""+productDescription);
             hashMap.put("productCategory", ""+productCategory);
-            hashMap.put("productQuantity", ""+productDescription);
+            hashMap.put("productQuantity", ""+productQuantity);
             hashMap.put("productIcon", "");
             hashMap.put("originalPrice", ""+originalPrice);
             hashMap.put("discountPrice", ""+discountPrice);
@@ -279,7 +279,7 @@ public class AddProductActivity extends AppCompatActivity {
                                 hashMap.put("productTitle", ""+productTitle);
                                 hashMap.put("productDescription", ""+productDescription);
                                 hashMap.put("productCategory", ""+productCategory);
-                                hashMap.put("productQuantity", ""+productDescription);
+                                hashMap.put("productQuantity", ""+productQuantity);
                                 hashMap.put("productIcon", ""+downloadImageUri);
                                 hashMap.put("originalPrice", ""+originalPrice);
                                 hashMap.put("discountPrice", ""+discountPrice);

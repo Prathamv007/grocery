@@ -35,7 +35,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cartItemsIv"
+            android:id="@+id/cartItemsRv"
             android:padding="5dp"
 tools:listitem="@layout/row_cartitem"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -61,8 +61,7 @@ tools:listitem="@layout/row_cartitem"
                 android:padding="5dp"
                 android:text="$10"
                 android:layout_alignParentEnd="true"
-
-                android:textStyle="bold"
+                 android:textStyle="bold"
                 android:textColor="@color/colorBlack"
                 android:id="@+id/sTotalTv"/>
             <TextView
@@ -104,7 +103,7 @@ tools:listitem="@layout/row_cartitem"
                 android:padding="5dp"
                 android:text="$22"
                 android:layout_alignParentEnd="true"
-android:layout_below="@id/dFeeTv"
+                android:layout_below="@id/dFeeTv"
                 android:textStyle="bold"
                 android:textColor="@color/colorBlack"
                 android:id="@+id/totalTv"/>

@@ -103,7 +103,7 @@
                android:inputType="phone"
                android:background="@drawable/shape_rect02"/>
            <EditText
-               android:id="@+id/deliveryfeet"
+               android:id="@+id/deliveryfeeEt"
                android:layout_below="@+id/phoneEt"
                android:hint="delivery fee"
 
@@ -119,7 +119,7 @@
                android:id="@+id/addressl"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:layout_below="@id/deliveryfeet"
+               android:layout_below="@id/deliveryfeeEt"
                android:layout_margin="5dp"
                android:orientation="horizontal">
 

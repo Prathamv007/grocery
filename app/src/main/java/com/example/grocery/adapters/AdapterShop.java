@@ -51,7 +51,7 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop> {
         String address=modelShop.getAddress();
         String city=modelShop.getCity();
         String country=modelShop.getCountry();
-        String deliveryfee=modelShop.getDeliveryfee();
+        String deliveryFee=modelShop.getDeliveryFee();
         String email=modelShop.getEmail();
         String latitude=modelShop.getLatitude();
         String longitude=modelShop.getLongitude();

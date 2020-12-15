@@ -227,7 +227,7 @@ android:layout_centerHorizontal="true"
     android:layout_below="@id/filteredProductsTv"
     android:id="@+id/productsRv"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    tools:listitem="@layout/row_product_user">
+    tools:listitem="@layout/row_product_seller">
 </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

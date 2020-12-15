@@ -41,7 +41,7 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
         this.productsList = productsList;
         this.filterList = productsList;
     }
-    static class HolderProductUser extends RecyclerView.ViewHolder{
+    class HolderProductUser extends RecyclerView.ViewHolder{
 
         //uid views
         private ImageView productIconIv;

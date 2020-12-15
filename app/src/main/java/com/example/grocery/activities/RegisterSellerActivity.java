@@ -51,7 +51,7 @@ import java.util.Locale;
 public class RegisterSellerActivity extends AppCompatActivity implements LocationListener {
     private ImageButton backBtn, gpsBtn;
     private EditText nameEt, shopNameEt, phoneEt, countryEt, stateEt,
-            cityEt, addressEt, emailEt, addressl, passwordEt, confpassdEt, deliveryfeet;
+            cityEt, addressEt, emailEt, addressl, passwordEt, confpassdEt, deliveryfeeEt;
     private Button RegisterBtn;
     private TextView forgotTv;
     private ImageView profileIv;
@@ -94,7 +94,7 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
         confpassdEt = findViewById(R.id.confpassdEt);
         RegisterBtn = findViewById(R.id.RegisterBtn);
         forgotTv = findViewById(R.id.forgotTv);
-        deliveryfeet = findViewById(R.id.deliveryfeet);
+        deliveryfeeEt = findViewById(R.id.deliveryfeeEt);
 
         //init permission arrays
         localPermission = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
@@ -154,7 +154,7 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
         country = countryEt.getText().toString().trim();
         city = cityEt.getText().toString().trim();
         shopName = shopNameEt.getText().toString().trim();
-        deliveryFee = deliveryfeet.getText().toString().trim();
+        deliveryFee = deliveryfeeEt.getText().toString().trim();
         address = addressEt.getText().toString().trim();
         email = emailEt.getText().toString().trim();
         password = passwordEt.getText().toString().trim();
@@ -263,7 +263,7 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
             hashMap.put("name", "" + fullName);
             hashMap.put("shopName", "" + shopName);
             hashMap.put("phone", "" + phoneNumber);
-            hashMap.put("deliveryfee", "" + deliveryFee);
+            hashMap.put("deliveryFee", "" + deliveryFee);
             hashMap.put("country", "" + country);
             hashMap.put("city", "" + city);
             hashMap.put("state", "" + state);
@@ -320,7 +320,7 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
                                 hashMap.put("name", "" + fullName);
                                 hashMap.put("shopName", "" + shopName);
                                 hashMap.put("phone", "" + phoneNumber);
-                                hashMap.put("deliveryfee", "" + deliveryFee);
+                                hashMap.put("deliveryFee", "" + deliveryFee);
                                 hashMap.put("country", "" + country);
                                 hashMap.put("city", "" + city);
                                 hashMap.put("state", "" + state);
