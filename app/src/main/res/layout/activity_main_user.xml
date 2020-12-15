@@ -111,12 +111,13 @@
         </LinearLayout>
 
     </RelativeLayout>
-<RelativeLayout
 
-    android:id="@+id/shopsRl"
+    <RelativeLayout
+     android:id="@+id/shopsRl"
     android:layout_below="@id/toolbarRl"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shopsRv"
         android:layout_width="match_parent"

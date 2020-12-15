@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo2"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/logo2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.OrderDetailsSellerActivity"/>
@@ -29,6 +29,7 @@
         <activity android:name=".activities.EditProductActivity" />
         <activity android:name=".activities.MainSellerActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.WriteReviewActivity"/>
         <activity android:name=".activities.ShopsReviewsActivity"/>
         <activity android:name=".activities.RegisterUserActivity" />
         <activity android:name=".activities.ProfileEditUserActivity" />
