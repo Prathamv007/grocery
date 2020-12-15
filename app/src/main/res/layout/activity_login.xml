@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
+            android:textAllCaps="true"
             android:text="Login"
             android:textSize="20sp"
             android:textColor="#ffffff">
@@ -75,15 +76,23 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         style="@style/Widget.AppCompat.Button.Colored"
-
         android:layout_below="@id/forgotTv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:text="Don't have an account?"
+        android:layout_centerHorizontal="true"/>
+
     <TextView
         android:id="@+id/NoaccountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="Not,have a account?Register"
-
+        android:text="Register"
+        android:textSize="20sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

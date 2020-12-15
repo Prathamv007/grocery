@@ -184,7 +184,7 @@
         android:layout_height="wrap_content"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_below="@+id/shopOpenSwitch"
-        android:text="Updat"
+        android:text="Update"
         android:layout_centerHorizontal="true"/>
 
 

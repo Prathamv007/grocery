@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
+            android:textAllCaps="true"
             android:text="Register User"
             android:textSize="20sp"
             android:textColor="#ffffff"/>
@@ -29,8 +30,7 @@
                 android:id="@+id/gpsBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-              android:layout_alignParentEnd="true"
-
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_gps_white"/>
 
 
