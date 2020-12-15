@@ -398,7 +398,7 @@ public class MainSellerActivity extends AppCompatActivity {
                             //get data from db
                             String name=""+ds.child("name").getValue();
                             String accountType=""+ds.child("accountType").getValue();
-                            String email = ""+ds.child("e").getValue();
+                            String email = ""+ds.child("email").getValue();
                             String shopName = ""+ds.child("shopName").getValue();
                             String profileImage = ""+ds.child("profileImage").getValue();
 

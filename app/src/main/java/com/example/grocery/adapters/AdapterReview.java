@@ -81,7 +81,7 @@ public class AdapterReview extends RecyclerView.Adapter<AdapterReview.HolderRevi
 
                         }
                         catch (Exception e){
-                                    holder.profileIv.setImageResource(R.drawable.ic_store_grey);
+                                    holder.profileIv.setImageResource(R.drawable.ic_store_gray);
                         }
                     }
 
@@ -106,7 +106,7 @@ public class AdapterReview extends RecyclerView.Adapter<AdapterReview.HolderRevi
          public HolderReview(@NonNull View itemView) {
             super(itemView);
 
-            profileIv=itemView.findViewById(R.id.productIv);
+            profileIv=itemView.findViewById(R.id.profileIv);
              reviewTv=itemView.findViewById(R.id.reviewTv);
              nameTv=itemView.findViewById(R.id.nameTv);
              dateTv=itemView.findViewById(R.id.dateTv);
