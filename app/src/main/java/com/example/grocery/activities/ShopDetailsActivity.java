@@ -23,17 +23,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.grocery.Constants;
 import com.example.grocery.R;
 import com.example.grocery.adapters.AdapterCartItem;
 import com.example.grocery.adapters.AdapterProductUser;
-import com.example.grocery.adapters.AdapterReview;
 import com.example.grocery.models.ModelCartItem;
 import com.example.grocery.models.ModelProduct;
-import com.example.grocery.models.ModelReview;
-//import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,15 +43,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import com.example.grocery.Constants;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
+
+//import com.google.android.gms.common.internal.Constants;
+//import com.google.android.gms.common.api.Response;
 
 public class ShopDetailsActivity extends AppCompatActivity {
 //declare ui views
@@ -365,8 +368,9 @@ public void cartCount(){
             }
         });
 
-
     }
+
+
 
     private void submitOrder() {
 //show progress dialog
@@ -397,32 +401,34 @@ final String timeStamp=""+System.currentTimeMillis();
                     @Override
                     public void onSuccess(Void aVoid) {
 //order info added ,now add order items
-                        for(int i=0;i<cartItemList.size();i++){
-                            String pId=cartItemList.get(i).getpId();
-                            String id=cartItemList.get(i).getId();
-                            String cost=cartItemList.get(i).getCost();
-                            String price=cartItemList.get(i).getPrice();
-                            String quantity=cartItemList.get(i).getQuantity();
-                            String name=cartItemList.get(i).getName();
+                        for (int i = 0; i < cartItemList.size(); i++) {
+                            String pId = cartItemList.get(i).getpId();
+                            String id = cartItemList.get(i).getId();
+                            String cost = cartItemList.get(i).getCost();
+                            String price = cartItemList.get(i).getPrice();
+                            String quantity = cartItemList.get(i).getQuantity();
+                            String name = cartItemList.get(i).getName();
 
-                            HashMap<String,String>hashMap1=new HashMap<>();
-                            hashMap1.put("pId",pId);
-                            hashMap1.put("name",name);
-                            hashMap1.put("cost",cost);
-                            hashMap1.put("price",price);
-                            hashMap1.put("quantity",quantity);
+                            HashMap<String, String> hashMap1 = new HashMap<>();
+                            hashMap1.put("pId", pId);
+                            hashMap1.put("name", name);
+                            hashMap1.put("cost", cost);
+                            hashMap1.put("price", price);
+                            hashMap1.put("quantity", quantity);
 
                             ref.child(timeStamp).child("Items").child(pId).setValue(hashMap1);
 
                         }
                         progressDialog.dismiss();
-                        Toast.makeText(ShopDetailsActivity.this,"Order Placed Successfully",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ShopDetailsActivity.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
 
-//after placing order open order details page
+                        prepareNotificationMessage(timeStamp);
+
+                        //after placing order open order details page
                         //open order details,we need to keep tehre orderid,orderto
-                        Intent intent=new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
-                        intent.putExtra("orderTo",shopUid);
-                        intent.putExtra("orderId",timeStamp);
+                        Intent intent = new Intent(ShopDetailsActivity.this, OrderDetailsUsersActivity.class);
+                        intent.putExtra("orderTo", shopUid);
+                        intent.putExtra("orderId", timeStamp);
                         startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -538,23 +544,38 @@ reference.child(shopUid).child("Products")
             Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
+        sendFcmNotification(notificationJo,orderId);
 
-sendFcmNotification(notificationJo,orderId);
+
 
     }
 
     private void sendFcmNotification(JSONObject notificationJo, String orderId) {
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
+        //send volley request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                //after sending fcm start order details activity
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // if failed sending fcm , start order details activity
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                //put required headers
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application");
+                headers.put("Authorization", "key"+Constants.FCM_KEY);
+
+                return super.getHeaders();
+            }
+        };
+        //enque the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
 

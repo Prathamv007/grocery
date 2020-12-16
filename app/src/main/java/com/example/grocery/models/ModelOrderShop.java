@@ -3,9 +3,9 @@ package com.example.grocery.models;
 public class ModelOrderShop {
     String orderId,orderTime,orderStatus,orderBy,orderTo,orderCost,latitude,longitude,deliveryFee;
 
-    public ModelOrderShop() {
+    public ModelOrderShop(){}
 
-    }
+    
 
     public ModelOrderShop(String orderId, String orderTime, String orderStatus, String orderBy, String orderTo, String orderCost, String latitude, String longitude, String deliveryFee) {
         this.orderId = orderId;
