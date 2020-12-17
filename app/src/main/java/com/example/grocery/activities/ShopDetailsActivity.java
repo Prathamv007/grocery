@@ -455,6 +455,48 @@ final String timeStamp=""+System.currentTimeMillis();
         Toast.makeText(this,""+shopPhone,Toast.LENGTH_SHORT).show();
     }
 
+    private void loadShopDetails() {
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //get shop data
+                String name=""+dataSnapshot.child("name").getValue();
+                shopName=""+dataSnapshot.child("shopName").getValue();
+                shopEmail=""+dataSnapshot.child("email").getValue();
+                shopLatitude=""+dataSnapshot.child("Latitude").getValue();
+                shopPhone=""+dataSnapshot.child("phone").getValue();
+                shopAddress=""+dataSnapshot.child("address").getValue();
+                shopLongitude=""+dataSnapshot.child("Longitude").getValue();
+                deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
+                String profileImage=""+dataSnapshot.child("profileImage").getValue();
+                String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
+                //set data
+                shopNameTv.setText(shopName);
+                emailTv.setText(shopEmail);
+                deliveryFeeTv.setText("Delivery Fee: $"+deliveryFee);
+                addressTv.setText(shopAddress);
+                phoneTv.setText(shopPhone);
+                if(shopOpen.equals("true")){
+                    openClosedTv.setText("Open");
+                }
+                else{
+                    openClosedTv.setText("Closed");
+                }
+                try{
+                    Picasso.get().load(profileImage).into(shopIv);
+                }
+                catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void loadMyInfo() {
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Users");
@@ -486,32 +528,32 @@ final String timeStamp=""+System.currentTimeMillis();
     }
     private void loadShopProducts() {
         //init list
-productsList=new ArrayList<>();
-DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
-reference.child(shopUid).child("Products")
-        .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //clear lists nefore adding items
-                productsList.clear();
-                for(DataSnapshot ds:dataSnapshot.getChildren()){
-                    ModelProduct modelProduct=ds.getValue(ModelProduct.class);
-                    productsList.add(modelProduct);
-                }
-                //setup adapter
-                adapterProductUser =new AdapterProductUser(ShopDetailsActivity.this,productsList);
-                //set adapter
-                productsRv.setAdapter(adapterProductUser);
-            }
+        productsList=new ArrayList<>();
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(shopUid).child("Products")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //clear lists nefore adding items
+                        productsList.clear();
+                        for(DataSnapshot ds:dataSnapshot.getChildren()){
+                            ModelProduct modelProduct=ds.getValue(ModelProduct.class);
+                            productsList.add(modelProduct);
+                        }
+                        //setup adapter
+                        adapterProductUser =new AdapterProductUser(ShopDetailsActivity.this,productsList);
+                        //set adapter
+                        productsRv.setAdapter(adapterProductUser);
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
+                    }
+                });
 
     }
+
     private void prepareNotificationMessage(String orderId){
         //when  user places order, send notification to seller
 
@@ -587,49 +629,4 @@ reference.child(shopUid).child("Products")
     }
 
 
-    private void loadShopDetails() {
-        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(shopUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //get shop data
-                String name=""+dataSnapshot.child("name").getValue();
-                shopName=""+dataSnapshot.child("shopName").getValue();
-                shopEmail=""+dataSnapshot.child("email").getValue();
-                shopLatitude=""+dataSnapshot.child("Latitude").getValue();
-                shopPhone=""+dataSnapshot.child("phone").getValue();
-                shopAddress=""+dataSnapshot.child("address").getValue();
-                shopLongitude=""+dataSnapshot.child("Longitude").getValue();
-                 deliveryFee=""+dataSnapshot.child("deliveryFee").getValue();
-                String profileImage=""+dataSnapshot.child("profileImage").getValue();
-                String shopOpen=""+dataSnapshot.child("shopOpen").getValue();
-                //set data
-                shopNameTv.setText(shopName);
-                emailTv.setText(shopEmail);
-                deliveryFeeTv.setText("Delivery Fee: $"+deliveryFee);
-                addressTv.setText(shopAddress);
-                phoneTv.setText(shopPhone);
-                if(shopOpen.equals("true")){
-                    openClosedTv.setText("Open");
-                }
-                else{
-                    openClosedTv.setText("Closed");
-                }
-                try{
-                    Picasso.get().load(profileImage).into(shopIv);
-                }
-                catch (Exception e){
-
-                }
-
-
-                
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }
