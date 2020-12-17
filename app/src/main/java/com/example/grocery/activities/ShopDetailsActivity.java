@@ -550,17 +550,25 @@ reference.child(shopUid).child("Products")
 
     }
 
-    private void sendFcmNotification(JSONObject notificationJo, String orderId) {
+    private void sendFcmNotification(JSONObject notificationJo, final String orderId) {
         //send volley request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //after sending fcm start order details activity
+                Intent intent = new Intent(ShopDetailsActivity.this,OrderDetailsUsersActivity.class);
+                intent.putExtra("orderTo", shopUid);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // if failed sending fcm , start order details activity
+                Intent intent = new Intent(ShopDetailsActivity.this,OrderDetailsUsersActivity.class);
+                intent.putExtra("orderTo", shopUid);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
             }
         }){
             @Override
